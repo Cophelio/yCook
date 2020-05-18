@@ -38,6 +38,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User authenticate(User other) {
+        User userFromDatabase = findByUsername(other.getUsername());
+        if (userFromDatabase == null) {
+            return null;
+        }
+
+        String encodedPassword = passwordEncoder.encode(other.getPassword());
+        if (encodedPassword.equals(userFromDatabase.getPassword())) {
+            return userFromDatabase;
+        }
+        return null;
+    }
+
+    @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }

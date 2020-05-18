@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.ycook.entity.User;
 import pl.coderslab.ycook.service.UserService;
+import pl.coderslab.ycook.service.UserServiceImpl;
 import pl.coderslab.ycook.validator.UserValidator;
 
 @Controller
@@ -35,7 +36,7 @@ public class UserController {
 
         userService.save(userForm);
 
-        return "redirect:welcome";
+        return "redirect:/welcome";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -49,7 +50,17 @@ public class UserController {
         return "login";
     }
 
-    @RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String login(@ModelAttribute("loginForm") User user) {
+        User authenticate = userService.authenticate(user);
+
+        if (authenticate != null) {
+            return "redirect:/welcome";
+        }
+        return "login";
+    }
+
+    @RequestMapping(value = "/welcome", method = RequestMethod.GET)
     public String welcome(Model model) {
         return "welcome";
     }
