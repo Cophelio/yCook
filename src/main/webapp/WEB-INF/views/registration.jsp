@@ -62,7 +62,10 @@
             </div>
         </spring:bind>
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Zarejestruj</button>
+        <div class="form-signin-xs">
+            <a href="${contextPath}/login" class="btn btn-info text-center extra-width" type="submit">Anuluj</a>
+            <button class="btn btn-info text-center" type="submit">Zarejestruj</button>
+        </div>
     </form:form>
 
 </div>

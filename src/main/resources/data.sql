@@ -1,3 +1,5 @@
+INSERT INTO role(id, name)
+VALUES (1, "ROLE_USER");
 INSERT INTO cuisine(id, name)
 VALUES
 (1, "Azjatycka"),

@@ -43,7 +43,7 @@
         <h2>Witaj ${pageContext.request.userPrincipal.name} | <a onclick="document.forms['logoutForm'].submit()">Wyloguj się</a></h2>
 
         <br>
-        <h3><a href="addRecipe.jsp">Dodaj przepis!</a></h3>
+        <h3><a href="${contextPath}/mainPage/recipe/add">Dodaj przepis!</a></h3>
     </c:if>
 </div>
 </sec:authorize>

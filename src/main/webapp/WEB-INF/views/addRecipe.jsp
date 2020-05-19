@@ -37,8 +37,10 @@
 
     <form:form method="POST" modelAttribute="recipe" class="form-signin">
         <h2 class="form-signin-heading">Dodaj przepis</h2>
+        <br>
 
         <spring:bind path="name">
+            <form:label path="name">Nazwij przepis</form:label>
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <form:input type="text" path="name" class="form-control" placeholder="Nazwa przepisu"
                             autofocus="true"></form:input>
@@ -46,22 +48,19 @@
             </div>
         </spring:bind>
 
+
         <spring:bind path="cuisine">
+            <form:label path="cuisine">Wybierz kuchnie</form:label>
             <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:label path="cuisine">Wybierz kuchnie</form:label>
-                <form:select path="cuisine" class="form-control" placeholder="Hasło">
-                    <form:option value="Azjatycka">Azjatycka</form:option>
-                    
+                <form:select class="form-control" path="cuisine" placeholder="Kuchnia">
+                    <form:options items="${cuisines}"/>
                 </form:select>
-                
                 <form:errors path="cuisine"></form:errors>
             </div>
-        </spring:bind>
-
+         </spring:bind>
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Dodaj przepis</button>
     </form:form>
-
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

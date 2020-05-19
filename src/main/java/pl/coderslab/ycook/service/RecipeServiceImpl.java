@@ -17,16 +17,16 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public void save(Recipe recipe) {
-        recipe.setName(recipe.getName());
-        recipe.setCuisine(recipe.getCuisine());
-        recipe.setType(recipe.getType());
-        recipe.setIngredients(recipe.getIngredients());
-        recipe.setDescription(recipe.getDescription());
-        recipe.setKcal(recipe.getKcal());
-        recipe.setOther(recipe.getOther());
-        recipe.setTime(recipe.getTime());
-        recipe.setLevel(recipe.getLevel());
-        recipe.setRecommend(recipe.isRecommend());
+//        recipe.setName(recipe.getName());
+//        recipe.setCuisine(recipe.getCuisine());
+//        recipe.setType(recipe.getType());
+//        recipe.setIngredients(recipe.getIngredients());
+//        recipe.setDescription(recipe.getDescription());
+//        recipe.setKcal(recipe.getKcal());
+//        recipe.setOther(recipe.getOther());
+//        recipe.setTime(recipe.getTime());
+//        recipe.setLevel(recipe.getLevel());
+//        recipe.setRecommend(recipe.isRecommend());
         recipeRepository.save(recipe);
     }
 
