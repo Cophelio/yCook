@@ -38,30 +38,28 @@
     <form:form method="POST" modelAttribute="recipe" class="form-signin">
         <h2 class="form-signin-heading">Dodaj przepis</h2>
 
-        <spring:bind path="username">
+        <spring:bind path="name">
             <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="username" class="form-control" placeholder="Nazwa użytkownika"
+                <form:input type="text" path="name" class="form-control" placeholder="Nazwa przepisu"
                             autofocus="true"></form:input>
-                <form:errors path="username"></form:errors>
+                <form:errors path="name"></form:errors>
             </div>
         </spring:bind>
 
-        <spring:bind path="password">
+        <spring:bind path="cuisine">
             <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="password" path="password" class="form-control" placeholder="Hasło"></form:input>
-                <form:errors path="password"></form:errors>
+                <form:label path="cuisine">Wybierz kuchnie</form:label>
+                <form:select path="cuisine" class="form-control" placeholder="Hasło">
+                    <form:option value="Azjatycka">Azjatycka</form:option>
+                    
+                </form:select>
+                
+                <form:errors path="cuisine"></form:errors>
             </div>
         </spring:bind>
 
-        <spring:bind path="passwordConfirm">
-            <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="password" path="passwordConfirm" class="form-control"
-                            placeholder="Potwierdź swoje hasło"></form:input>
-                <form:errors path="passwordConfirm"></form:errors>
-            </div>
-        </spring:bind>
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Zarejestruj</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Dodaj przepis</button>
     </form:form>
 
 </div>

@@ -26,14 +26,34 @@ public class RecipeValidator implements Validator {
             errors.rejectValue("name", "ToMuch");
         }
 
-//
-//        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
-//        if (user.getPassword().length() < 8 || user.getPassword().length() > 32) {
-//            errors.rejectValue("password", "Size.userForm.password");
-//        }
-//
-//        if (!user.getPasswordConfirm().equals(user.getPassword())) {
-//            errors.rejectValue("passwordConfirm", "Diff.userForm.passwordConfirm");
-//        }
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "cuisine", "NotEmpty");
+
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "type", "NotEmpty");
+
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "ingredients", "NotEmpty");
+        if (recipe.getIngredients().length() < 3) {
+            errors.rejectValue("ingredients", "Size.recipeForm.ingredients");
+        }
+        if (recipe.getIngredients().length() > 300) {
+            errors.rejectValue("ingredients", "Size.recipeForm.toMuch.ingredients");
+        }
+
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "NotEmpty");
+        if (recipe.getDescription().length() < 6) {
+            errors.rejectValue("description", "Size.recipeForm.name");
+        }
+        if (recipe.getDescription().length() > 1200) {
+            errors.rejectValue("description", "Size.recipeForm.toMuch.description");
+        }
+
+        if (recipe.getOther().length() > 60) {
+            errors.rejectValue("other", "ToMuch");
+        }
+
+        if (recipe.getTime().length() > 30) {
+            errors.rejectValue("time", "Size.recipeForm.time");
+        }
+
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "level", "NotEmpty");
     }
 }

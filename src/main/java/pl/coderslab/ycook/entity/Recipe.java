@@ -1,6 +1,5 @@
 package pl.coderslab.ycook.entity;
 
-
 import javax.persistence.*;
 
 @Entity
@@ -25,7 +24,7 @@ public class Recipe {
 
     private String other;
 
-    private int time;
+    private String time;
 
     private int level;
 
@@ -95,11 +94,11 @@ public class Recipe {
         this.other = other;
     }
 
-    public int getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(int time) {
+    public void setTime(String time) {
         this.time = time;
     }
 
