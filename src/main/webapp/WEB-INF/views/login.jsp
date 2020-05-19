@@ -37,16 +37,16 @@
 
 <div class="container">
 
-    <form:form method="POST" modelAttribute="loginForm" action="${contextPath}/login" class="form-signin">
+    <form method="POST" action="${contextPath}/login" class="form-signin">
         <h2 class="form-heading">Zaloguj się</h2>
 
         <div class="form-group ${error != null ? 'has-error' : ''}">
             <span>${message}</span>
 
-            <form:input path="username" name="username" type="text" class="form-control" placeholder="Nazwa użytkownika"
+            <input name="username" type="text" class="form-control" placeholder="Nazwa użytkownika"
                    autofocus="true"/>
 
-            <form:input path="password" name="password" type="password" class="form-control" placeholder="Hasło"/>
+            <input name="password" type="password" class="form-control" placeholder="Hasło"/>
 
             <span>${error}</span>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -54,7 +54,8 @@
             <button class="btn btn-lg btn-primary btn-block" type="submit">Zaloguj się</button>
             <h4 class="text-center"><a href="${contextPath}/registration">Stwórz konto</a></h4>
         </div>
-    </form:form>
+
+    </form>
 
 </div>
 

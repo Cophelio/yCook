@@ -6,9 +6,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.ycook.entity.User;
+import pl.coderslab.ycook.service.SecurityService;
 import pl.coderslab.ycook.service.UserService;
-import pl.coderslab.ycook.service.UserServiceImpl;
 import pl.coderslab.ycook.validator.UserValidator;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+
 
 @Controller
 public class UserController {
@@ -17,17 +22,20 @@ public class UserController {
     private UserService userService;
 
     @Autowired
+    private SecurityService securityService;
+
+    @Autowired
     private UserValidator userValidator;
 
-    @RequestMapping(value = "/registration", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+    @GetMapping("/registration")
     public String registration(Model model) {
         model.addAttribute("userForm", new User());
 
         return "registration";
     }
 
-    @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model) {
+    @PostMapping("/registration")
+    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
         userValidator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
@@ -36,13 +44,15 @@ public class UserController {
 
         userService.save(userForm);
 
-        return "redirect:/welcome";
+        securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
+
+        return "redirect:/mainPage";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @GetMapping("/login")
     public String login(Model model, String error, String logout) {
         if (error != null)
-            model.addAttribute("error", "Twoja nazwa użytkownika lub hasło są niewłaściwe");
+            model.addAttribute("error", "Twoja nazwa użytkownika lub hasło są niewłaściwe.");
 
         if (logout != null)
             model.addAttribute("message", "Zostałeś pomyślnie wylogowany.");
@@ -50,18 +60,14 @@ public class UserController {
         return "login";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(@ModelAttribute("loginForm") User user) {
-        User authenticate = userService.authenticate(user);
-
-        if (authenticate != null) {
-            return "redirect:/welcome";
-        }
-        return "login";
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/login";
     }
 
-    @RequestMapping(value = "/welcome", method = RequestMethod.GET)
-    public String welcome(Model model) {
-        return "welcome";
+    @GetMapping({"/", "/mainPage"})
+    public String mainPage(Model model) {
+        return "mainPage";
     }
 }

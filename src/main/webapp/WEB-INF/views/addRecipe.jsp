@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: przemyslaw
-  Date: 18.05.2020
-  Time: 18:25
+  Date: 19.05.2020
+  Time: 12:57
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
@@ -21,7 +21,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Utwórz konto.</title>
+    <title>Dodaj przepis</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
@@ -32,13 +32,12 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-
 <body>
-
 <div class="container">
 
-    <form:form method="POST" modelAttribute="userForm" class="form-signin">
-        <h2 class="form-signin-heading">Stwórz konto</h2>
+    <form:form method="POST" modelAttribute="recipe" class="form-signin">
+        <h2 class="form-signin-heading">Dodaj przepis</h2>
+
         <spring:bind path="username">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <form:input type="text" path="username" class="form-control" placeholder="Nazwa użytkownika"

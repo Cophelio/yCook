@@ -16,10 +16,12 @@ public class User {
 
     private String password;
 
+    @Transient
     private String passwordConfirm;
 
     private int enabled;
 
+    @ManyToMany
     private Set<Role> roles;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

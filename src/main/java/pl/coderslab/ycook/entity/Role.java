@@ -13,6 +13,7 @@ public class Role {
 
     private String name;
 
+    @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 
     @Id

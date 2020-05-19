@@ -21,7 +21,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Create an account</title>
+    <title>Strona główna</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
 
@@ -42,6 +42,8 @@
 
         <h2>Witaj ${pageContext.request.userPrincipal.name} | <a onclick="document.forms['logoutForm'].submit()">Wyloguj się</a></h2>
 
+        <br>
+        <h3><a href="addRecipe.jsp">Dodaj przepis!</a></h3>
     </c:if>
 </div>
 </sec:authorize>
