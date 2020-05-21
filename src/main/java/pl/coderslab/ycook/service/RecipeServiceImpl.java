@@ -2,8 +2,11 @@ package pl.coderslab.ycook.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.coderslab.ycook.entity.Cuisine;
 import pl.coderslab.ycook.entity.Recipe;
 import pl.coderslab.ycook.repository.RecipeRepository;
+
+import java.util.List;
 
 @Service
 public class RecipeServiceImpl implements RecipeService {
@@ -16,22 +19,28 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    public Recipe findById(int id) {
+        return recipeRepository.findById(id);
+    }
+
+    @Override
+    public List<Recipe> getAll() {
+        return recipeRepository.findAll();
+    }
+
+    @Override
     public void save(Recipe recipe) {
-//        recipe.setName(recipe.getName());
-//        recipe.setCuisine(recipe.getCuisine());
-//        recipe.setType(recipe.getType());
-//        recipe.setIngredients(recipe.getIngredients());
-//        recipe.setDescription(recipe.getDescription());
-//        recipe.setKcal(recipe.getKcal());
-//        recipe.setOther(recipe.getOther());
-//        recipe.setTime(recipe.getTime());
-//        recipe.setLevel(recipe.getLevel());
-//        recipe.setRecommend(recipe.isRecommend());
         recipeRepository.save(recipe);
     }
 
     @Override
-    public Recipe findById(int id) {
-        return recipeRepository.findById(id);
+    public void delete(Recipe recipe, int id) {
+        Recipe foundedRecipe = recipeRepository.findById(id);
+        recipeRepository.delete(foundedRecipe);
+    }
+
+    @Override
+    public void update(Recipe recipe, int id) {
+
     }
 }

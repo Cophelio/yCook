@@ -26,7 +26,7 @@ public class Recipe {
 
     private String time;
 
-    private int level;
+    private String level;
 
     private boolean recommend;
 
@@ -102,11 +102,11 @@ public class Recipe {
         this.time = time;
     }
 
-    public int getLevel() {
+    public String getLevel() {
         return level;
     }
 
-    public void setLevel(int level) {
+    public void setLevel(String level) {
         this.level = level;
     }
 

@@ -67,6 +67,14 @@ body {
     margin-top: 3px;
 }
 
+.margin-bottom {
+    margin-bottom: 10px;
+}
+
+.extra-margin-top {
+    margin-top: 10px;
+}
+
 .has-error {
     color: red
 }

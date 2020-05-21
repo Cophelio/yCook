@@ -69,3 +69,8 @@ VALUES
 (66, "Rosyjska"),
 (67, "Zachodnioindyjska"),
 (68, "Indonezyjska");
+INSERT INTO cuisine_type(id, name)
+VALUES
+(1, "Mieszana"),
+(2, "Wegetariańska"),
+(3, "Wegańska");

@@ -21,7 +21,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Dodaj przepis</title>
+    <title>Edytuj przepis</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
@@ -35,8 +35,8 @@
 <body>
 <div class="container">
 
-    <form:form method="POST" modelAttribute="recipe" class="form-signin">
-        <h2 class="form-signin-heading">Dodaj przepis</h2>
+    <form:form method="POST" modelAttribute="foundedRecipe" class="form-signin">
+        <h2 class="form-signin-heading">Edytuj przepis</h2>
         <br>
 
         <spring:bind path="name">
@@ -57,7 +57,7 @@
                 </form:select>
                 <form:errors path="cuisine"></form:errors>
             </div>
-         </spring:bind>
+        </spring:bind>
 
         <spring:bind path="type">
             <form:label path="type">Wybierz typ</form:label>
@@ -73,7 +73,7 @@
             <form:label path="ingredients">Wypisz składniki</form:label>
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <form:textarea path="ingredients" class="form-control" placeholder="Składniki"
-                            rows="5" autofocus="true"></form:textarea>
+                               rows="5" autofocus="true"></form:textarea>
                 <form:errors path="ingredients"></form:errors>
             </div>
         </spring:bind>
@@ -90,7 +90,7 @@
         <spring:bind path="kcal">
             <div class="margin-bottom">
                 <form:label path="kcal">Kalorie</form:label>
-                    <form:input type="text" path="kcal" class="form-control" placeholder="Ilość kalorii"
+                <form:input type="text" path="kcal" class="form-control" placeholder="Ilość kalorii"
                             autofocus="true"></form:input>
             </div>
         </spring:bind>
@@ -135,7 +135,7 @@
 
         <div class="form-signin-xs extra-margin-top">
             <a href="${contextPath}/mainPage" class="btn btn-info text-center extra-width" type="submit">Anuluj</a>
-            <button class="btn btn-info text-center" type="submit">Dodaj przepis</button>
+            <button class="btn btn-info text-center" type="submit">Edytuj przepis</button>
         </div>
     </form:form>
 </div>
