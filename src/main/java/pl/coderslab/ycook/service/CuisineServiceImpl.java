@@ -6,6 +6,7 @@ import pl.coderslab.ycook.entity.Cuisine;
 import pl.coderslab.ycook.repository.CuisineRepository;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class CuisineServiceImpl implements CuisineService {
@@ -20,5 +21,11 @@ public class CuisineServiceImpl implements CuisineService {
     @Override
     public ArrayList<Cuisine> getAll() {
         return cuisineRepository.findAll();
+    }
+
+    @Override
+    public Cuisine findById(long id) {
+        Optional<Cuisine> byId = cuisineRepository.findById(id);
+        return byId.get();
     }
 }

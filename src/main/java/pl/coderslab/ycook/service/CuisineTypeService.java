@@ -6,4 +6,6 @@ import java.util.ArrayList;
 
 public interface CuisineTypeService {
     ArrayList<CuisineType> getAll();
+
+    CuisineType findById(long id);
 }

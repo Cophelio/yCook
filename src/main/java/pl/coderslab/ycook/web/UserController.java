@@ -9,11 +9,7 @@ import pl.coderslab.ycook.entity.User;
 import pl.coderslab.ycook.service.SecurityService;
 import pl.coderslab.ycook.service.UserService;
 import pl.coderslab.ycook.validator.UserValidator;
-
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-
 
 @Controller
 public class UserController {
@@ -37,6 +33,10 @@ public class UserController {
     @PostMapping("/registration")
     public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
         userValidator.validate(userForm, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            return "redirect:/registration";
+        }
 
         userService.save(userForm);
 

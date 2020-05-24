@@ -8,12 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import pl.coderslab.ycook.entity.Cuisine;
 import pl.coderslab.ycook.entity.CuisineType;
 import pl.coderslab.ycook.entity.Recipe;
-import pl.coderslab.ycook.repository.CuisineRepository;
-import pl.coderslab.ycook.repository.CuisineTypeRepository;
-import pl.coderslab.ycook.repository.RecipeRepository;
 import pl.coderslab.ycook.service.CuisineService;
+import pl.coderslab.ycook.service.CuisineTypeService;
 import pl.coderslab.ycook.service.RecipeService;
 import pl.coderslab.ycook.validator.RecipeValidator;
+import pl.coderslab.ycook.viewModel.RecipeViewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,13 +23,10 @@ import java.util.Map;
 public class MainPageController {
 
     @Autowired
-    private final CuisineRepository cuisineRepository;
-
-    @Autowired
-    private final CuisineTypeRepository cuisineTypeRepository;
-
-    @Autowired
     private final CuisineService cuisineService;
+
+    @Autowired
+    private final CuisineTypeService cuisineTypeService;
 
     @Autowired
     private final RecipeService recipeService;
@@ -38,27 +34,41 @@ public class MainPageController {
     @Autowired
     private final RecipeValidator recipeValidator;
 
-    @Autowired
-    private final RecipeRepository recipeRepository;
-
     public MainPageController(
-            CuisineRepository cuisineRepository,
-            CuisineTypeRepository cuisineTypeRepository,
-            CuisineService cuisineService, RecipeService recipeService,
-            RecipeValidator recipeValidator, RecipeRepository recipeRepository) {
-        this.cuisineRepository = cuisineRepository;
-        this.cuisineTypeRepository = cuisineTypeRepository;
+            CuisineService cuisineService,
+            CuisineTypeService cuisineTypeService,
+            RecipeService recipeService,
+            RecipeValidator recipeValidator
+    ) {
         this.cuisineService = cuisineService;
+        this.cuisineTypeService = cuisineTypeService;
         this.recipeService = recipeService;
         this.recipeValidator = recipeValidator;
-        this.recipeRepository = recipeRepository;
     }
 
     @GetMapping({"/", "/mainPage"})
     public String mainPage(Model model) {
         List<Recipe> recipes = recipeService.getAll();
-        model.addAttribute("allRecipes", recipes);
+        List<RecipeViewModel> allRecipes = new ArrayList<>();
+        for (Recipe recipe : recipes) {
+            Cuisine cuisine = cuisineService.findById(Integer.parseInt(recipe.getCuisine()));
+            CuisineType cuisineType = cuisineTypeService.findById(Integer.parseInt(recipe.getType()));
+            RecipeViewModel recipeViewModel = new RecipeViewModel(recipe, cuisine.getName(), cuisineType.getName());
+            allRecipes.add(recipeViewModel);
+        }
+        model.addAttribute("allRecipes", allRecipes);
         return "mainPage";
+    }
+
+    @GetMapping("/mainPage/recipe/{id}")
+    public String viewRecipe(@PathVariable int id, Model model) {
+        Recipe recipe = recipeService.findById(id);
+        Cuisine cuisine = cuisineService.findById(Integer.parseInt(recipe.getCuisine()));
+        CuisineType cuisineType = cuisineTypeService.findById(Integer.parseInt(recipe.getType()));
+        RecipeViewModel actualRecipe = new RecipeViewModel(recipe, cuisine.getName(), cuisineType.getName());
+        model.addAttribute("actualRecipe", actualRecipe);
+
+        return "viewRecipe";
     }
 
     @GetMapping("/mainPage/recipe/delete/{id}")
@@ -98,9 +108,9 @@ public class MainPageController {
     public String addRecipe(@ModelAttribute("recipe") Recipe recipe, BindingResult bindingResult) {
         recipeValidator.validate(recipe, bindingResult);
 
-        if (bindingResult.hasErrors()) {
-            return "redirect:/mainPage/recipe/add";
-        }
+//        if (bindingResult.hasErrors()) {
+//            return "redirect:/mainPage/recipe/add";
+//        }
 
         recipeService.save(recipe);
 
@@ -110,7 +120,7 @@ public class MainPageController {
     @ModelAttribute("cuisines")
     public Map<String, String> getCuisines() {
         Map<String, String> cuisines = new HashMap<>();
-        ArrayList<Cuisine> cuisineList = this.cuisineRepository.findAll();
+        ArrayList<Cuisine> cuisineList = this.cuisineService.getAll();
         for (Cuisine cuisine : cuisineList)
             cuisines.put(String.valueOf(cuisine.getId()), cuisine.getName());
         return cuisines;
@@ -119,7 +129,7 @@ public class MainPageController {
     @ModelAttribute("cuisineTypes")
     public Map<String, String> getCuisineTypes() {
         Map<String, String> cuisineTypes = new HashMap<>();
-        ArrayList<CuisineType> cuisineTypeList = this.cuisineTypeRepository.findAll();
+        ArrayList<CuisineType> cuisineTypeList = this.cuisineTypeService.getAll();
         for (CuisineType cuisineType : cuisineTypeList)
             cuisineTypes.put(String.valueOf(cuisineType.getId()), cuisineType.getName());
         return cuisineTypes;
