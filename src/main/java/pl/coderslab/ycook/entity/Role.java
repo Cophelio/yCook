@@ -16,8 +16,6 @@ public class Role {
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getId() {
         return id;
     }
@@ -34,7 +32,6 @@ public class Role {
         this.name = name;
     }
 
-    @ManyToMany(mappedBy = "roles")
     public Set<User> getUsers() {
         return users;
     }

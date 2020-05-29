@@ -51,22 +51,16 @@
 
         <spring:bind path="cuisine">
             <form:label path="cuisine">Wybierz kuchnie</form:label>
-            <div class="form-group ${status.error ? 'has-error' : ''}">
                 <form:select class="form-control" path="cuisine" placeholder="Kuchnia">
                     <form:options items="${cuisines}"/>
                 </form:select>
-                <form:errors path="cuisine"></form:errors>
-            </div>
         </spring:bind>
 
         <spring:bind path="type">
             <form:label path="type">Wybierz typ</form:label>
-            <div class="form-group ${status.error ? 'has-error' : ''}">
                 <form:select class="form-control" path="type" placeholder="Typy">
                     <form:options items="${cuisineTypes}"/>
                 </form:select>
-                <form:errors path="type"></form:errors>
-            </div>
         </spring:bind>
 
         <spring:bind path="ingredients">
@@ -115,7 +109,6 @@
 
         <spring:bind path="level">
             <form:label path="level">Poziom trudności</form:label>
-            <div class="form-group ${status.error ? 'has-error' : ''}">
                 <form:select class="form-control" path="level" placeholder="Poziom trudności">
                     <form:option value="1" items="1">&#9733;</form:option>
                     <form:option value="2" items="2">&#9733; &#9733;</form:option>
@@ -124,8 +117,6 @@
                     <form:option value="5" items="5">&#9733; &#9733; &#9733; &#9733; &#9733;</form:option>
                     <form:option value="6" items="6">&#9733; &#9733; &#9733; &#9733; &#9733; &#9733;</form:option>
                 </form:select>
-                <form:errors path="level"></form:errors>
-            </div>
         </spring:bind>
 
         <form:label path="recommend">Polecany przepis</form:label>

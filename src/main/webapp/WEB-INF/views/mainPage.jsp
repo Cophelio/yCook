@@ -8,6 +8,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
@@ -101,10 +102,17 @@
         <div id="filter-panel" class="collapse filter-panel">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <form class="form-inline" role="form">
+                    <form action="${contextPath}/mainPage" class="form-inline" role="form">
+                            <%--                    <form:form method="GET" modelAttribute="" class="form-inline" role="form">--%>
                         <div class="form-group">
-                            <label class="filter-col" style="margin-right:0;" for="name">Nazwa:</label>
-                            <input id="name" class="form-control">
+                                <%--                            <spring:bind path="name">--%>
+                                <%--                                <form:input type="text" path="name" class="form-control" placeholder="Nazwa użytkownika"--%>
+                                <%--                                            autofocus="true"></form:input>--%>
+                                <%--                            </spring:bind>--%>
+                                <%--                                                            <label class="filter-col" style="margin-right:0;" for="name">Nazwa:</label>--%>
+                                <%--                                                            <input id="name" class="form-control">--%>
+                            <label class="filter-col" style="margin-right:0;" for="name">Nazwa użytkownika</label>
+                            <input id="name" class="form-control" type="text" name="name">
                                 <%--                                <label class="filter-col" style="margin-right:0;" for="pref-perpage">Rows per page:</label>--%>
                                 <%--                                <select id="pref-perpage" class="form-control">--%>
                                 <%--                                    <option value="2">2</option>--%>
@@ -157,7 +165,7 @@
     </div>
 
     <div class="container">
-        <h3 style="padding-top: 50px; font-weight: bolder">Lista przepisów</h3>
+        <h3 style=" padding-top: 50px; font-weight: bolder">Lista przepisów</h3>
     </div>
 
     <br>

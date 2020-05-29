@@ -1,6 +1,9 @@
 package pl.coderslab.ycook.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -8,12 +11,16 @@ import org.springframework.web.bind.annotation.*;
 import pl.coderslab.ycook.entity.Cuisine;
 import pl.coderslab.ycook.entity.CuisineType;
 import pl.coderslab.ycook.entity.Recipe;
+import pl.coderslab.ycook.entity.User;
 import pl.coderslab.ycook.service.CuisineService;
 import pl.coderslab.ycook.service.CuisineTypeService;
 import pl.coderslab.ycook.service.RecipeService;
+import pl.coderslab.ycook.service.UserService;
 import pl.coderslab.ycook.validator.RecipeValidator;
 import pl.coderslab.ycook.viewModel.RecipeViewModel;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,29 +41,53 @@ public class MainPageController {
     @Autowired
     private final RecipeValidator recipeValidator;
 
+    @Autowired
+    private final UserService userService;
+
     public MainPageController(
             CuisineService cuisineService,
             CuisineTypeService cuisineTypeService,
             RecipeService recipeService,
-            RecipeValidator recipeValidator
+            RecipeValidator recipeValidator,
+            UserService userService
     ) {
         this.cuisineService = cuisineService;
         this.cuisineTypeService = cuisineTypeService;
         this.recipeService = recipeService;
         this.recipeValidator = recipeValidator;
+        this.userService = userService;
     }
 
     @GetMapping({"/", "/mainPage"})
-    public String mainPage(Model model) {
+    public String mainPage(Model model, HttpServletRequest request) {
+        List<RecipeViewModel> result = new ArrayList<>();
+
+        String name = request.getParameter("name");
+
+        if (name != null) {
+            List<Recipe> filteredRecipes = recipeService.findAllByName(name);
+
+
+            for (Recipe recipe : filteredRecipes) {
+                Cuisine cuisine = cuisineService.findById(Integer.parseInt(recipe.getCuisine()));
+                CuisineType cuisineType = cuisineTypeService.findById(Integer.parseInt(recipe.getType()));
+                RecipeViewModel recipeViewModel = new RecipeViewModel(recipe, cuisine.getName(), cuisineType.getName());
+                result.add(recipeViewModel);
+            }
+
+            model.addAttribute("allRecipes", result);
+            return "mainPage";
+        }
+
         List<Recipe> recipes = recipeService.getAll();
-        List<RecipeViewModel> allRecipes = new ArrayList<>();
+
         for (Recipe recipe : recipes) {
             Cuisine cuisine = cuisineService.findById(Integer.parseInt(recipe.getCuisine()));
             CuisineType cuisineType = cuisineTypeService.findById(Integer.parseInt(recipe.getType()));
             RecipeViewModel recipeViewModel = new RecipeViewModel(recipe, cuisine.getName(), cuisineType.getName());
-            allRecipes.add(recipeViewModel);
+            result.add(recipeViewModel);
         }
-        model.addAttribute("allRecipes", allRecipes);
+        model.addAttribute("allRecipes", result);
         return "mainPage";
     }
 
@@ -90,7 +121,7 @@ public class MainPageController {
         recipeValidator.validate(recipe, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            return "redirect:/mainPage/recipe/edit/{id}";
+            return "editRecipe";
         }
 
         recipeService.save(recipe);
@@ -108,10 +139,15 @@ public class MainPageController {
     public String addRecipe(@ModelAttribute("recipe") Recipe recipe, BindingResult bindingResult) {
         recipeValidator.validate(recipe, bindingResult);
 
-//        if (bindingResult.hasErrors()) {
-//            return "redirect:/mainPage/recipe/add";
-//        }
+        if (bindingResult.hasErrors()) {
+            return "addRecipe";
+        }
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        org.springframework.security.core.userdetails.User principal =
+                (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+        User user = userService.findByUsername(principal.getUsername());
+        recipe.setUser(user);
         recipeService.save(recipe);
 
         return "redirect:/mainPage";

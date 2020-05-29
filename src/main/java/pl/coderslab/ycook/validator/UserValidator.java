@@ -1,17 +1,16 @@
 package pl.coderslab.ycook.validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import org.springframework.validation.ValidationUtils;
 import pl.coderslab.ycook.entity.User;
 import pl.coderslab.ycook.service.UserService;
 
 @Component
 public class UserValidator implements Validator {
+
     @Autowired
     private UserService userService;
 

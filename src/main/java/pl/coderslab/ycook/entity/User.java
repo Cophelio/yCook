@@ -1,6 +1,7 @@
 package pl.coderslab.ycook.entity;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Set;
 
 @Entity
@@ -21,17 +22,17 @@ public class User {
 
     private int enabled;
 
-    @ManyToMany
-    private Set<Role> roles;
-
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
+    private Collection<Recipe> userRecipes;
+
     public Set<Role> getRoles() {
         return roles;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getId() {
         return id;
     }
@@ -75,5 +76,13 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Collection<Recipe> getUserRecipes() {
+        return userRecipes;
+    }
+
+    public void setUserRecipes(Collection<Recipe> userRecipes) {
+        this.userRecipes = userRecipes;
     }
 }

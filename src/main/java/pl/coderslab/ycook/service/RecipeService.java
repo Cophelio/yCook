@@ -17,4 +17,6 @@ public interface RecipeService {
     Recipe findById(int id);
 
     List<Recipe> getAll();
+
+    List<Recipe> findAllByName(String name);
 }

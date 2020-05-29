@@ -26,10 +26,6 @@ public class RecipeValidator implements Validator {
             errors.rejectValue("name", "ToMuch");
         }
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "cuisine", "NotEmpty");
-
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "type", "NotEmpty");
-
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "ingredients", "NotEmpty");
         if (recipe.getIngredients().length() < 3) {
             errors.rejectValue("ingredients", "Size.recipeForm.ingredients");
@@ -53,7 +49,5 @@ public class RecipeValidator implements Validator {
         if (recipe.getTime().length() > 30) {
             errors.rejectValue("time", "Size.recipeForm.time");
         }
-
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "level", "NotEmpty");
     }
 }

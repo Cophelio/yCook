@@ -29,6 +29,11 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    public List<Recipe> findAllByName(String name) {
+        return recipeRepository.findAllByName(name);
+    }
+
+    @Override
     public void save(Recipe recipe) {
         recipeRepository.save(recipe);
     }
