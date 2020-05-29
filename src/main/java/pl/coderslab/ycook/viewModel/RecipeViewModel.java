@@ -16,7 +16,7 @@ public class RecipeViewModel {
 
     private String description;
 
-    private String kcal;
+    private int kcal;
 
     private String other;
 
@@ -91,11 +91,11 @@ public class RecipeViewModel {
         this.description = description;
     }
 
-    public String getKcal() {
+    public int getKcal() {
         return kcal;
     }
 
-    public void setKcal(String kcal) {
+    public void setKcal(int kcal) {
         this.kcal = kcal;
     }
 

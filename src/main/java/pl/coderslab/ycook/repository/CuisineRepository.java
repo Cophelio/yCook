@@ -7,4 +7,6 @@ import java.util.ArrayList;
 
 public interface CuisineRepository extends JpaRepository<Cuisine, Long> {
         ArrayList<Cuisine> findAll();
+
+        Cuisine findByName(String name);
 }

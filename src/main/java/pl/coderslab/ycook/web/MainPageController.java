@@ -2,7 +2,6 @@ package pl.coderslab.ycook.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,11 +19,11 @@ import pl.coderslab.ycook.validator.RecipeValidator;
 import pl.coderslab.ycook.viewModel.RecipeViewModel;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 
 @Controller
 public class MainPageController {
@@ -62,14 +61,51 @@ public class MainPageController {
     public String mainPage(Model model, HttpServletRequest request) {
         List<RecipeViewModel> result = new ArrayList<>();
 
-        String name = request.getParameter("name");
+        String name = null;
+        String cuisineValue = null;
+
+        if (request.getParameter("name") != null && !(request.getParameter("name").isEmpty())) {
+            name = request.getParameter("name");
+        }
+        if (request.getParameter("cuisineValue") != null && !(request.getParameter("cuisineValue").isEmpty())) {
+            cuisineValue = request.getParameter("cuisineValue");
+        }
+
+        if (name != null && cuisineValue != null) {
+            long cuisineId = Long.parseLong(cuisineValue);
+            List<Recipe> filteredRecipes = recipeService.findAllByNameAndCuisine(name, cuisineId);
+
+            for (Recipe recipe : filteredRecipes) {
+                Cuisine cuisine = cuisineService.findById(recipe.getCuisine());
+                CuisineType cuisineType = cuisineTypeService.findById(Integer.parseInt(recipe.getType()));
+                RecipeViewModel recipeViewModel = new RecipeViewModel(recipe, cuisine.getName(), cuisineType.getName());
+                result.add(recipeViewModel);
+            }
+
+            model.addAttribute("allRecipes", result);
+            return "mainPage";
+        }
 
         if (name != null) {
             List<Recipe> filteredRecipes = recipeService.findAllByName(name);
 
+            for (Recipe recipe : filteredRecipes) {
+                Cuisine cuisine = cuisineService.findById(recipe.getCuisine());
+                CuisineType cuisineType = cuisineTypeService.findById(Integer.parseInt(recipe.getType()));
+                RecipeViewModel recipeViewModel = new RecipeViewModel(recipe, cuisine.getName(), cuisineType.getName());
+                result.add(recipeViewModel);
+            }
+
+            model.addAttribute("allRecipes", result);
+            return "mainPage";
+        }
+
+        if (cuisineValue != null) {
+            long cuisineId = Long.parseLong(cuisineValue);
+            List<Recipe> filteredRecipes = recipeService.findAllByCuisine(cuisineId);
 
             for (Recipe recipe : filteredRecipes) {
-                Cuisine cuisine = cuisineService.findById(Integer.parseInt(recipe.getCuisine()));
+                Cuisine cuisine = cuisineService.findById(recipe.getCuisine());
                 CuisineType cuisineType = cuisineTypeService.findById(Integer.parseInt(recipe.getType()));
                 RecipeViewModel recipeViewModel = new RecipeViewModel(recipe, cuisine.getName(), cuisineType.getName());
                 result.add(recipeViewModel);
@@ -82,7 +118,7 @@ public class MainPageController {
         List<Recipe> recipes = recipeService.getAll();
 
         for (Recipe recipe : recipes) {
-            Cuisine cuisine = cuisineService.findById(Integer.parseInt(recipe.getCuisine()));
+            Cuisine cuisine = cuisineService.findById(recipe.getCuisine());
             CuisineType cuisineType = cuisineTypeService.findById(Integer.parseInt(recipe.getType()));
             RecipeViewModel recipeViewModel = new RecipeViewModel(recipe, cuisine.getName(), cuisineType.getName());
             result.add(recipeViewModel);
@@ -94,7 +130,7 @@ public class MainPageController {
     @GetMapping("/mainPage/recipe/{id}")
     public String viewRecipe(@PathVariable int id, Model model) {
         Recipe recipe = recipeService.findById(id);
-        Cuisine cuisine = cuisineService.findById(Integer.parseInt(recipe.getCuisine()));
+        Cuisine cuisine = cuisineService.findById(recipe.getCuisine());
         CuisineType cuisineType = cuisineTypeService.findById(Integer.parseInt(recipe.getType()));
         RecipeViewModel actualRecipe = new RecipeViewModel(recipe, cuisine.getName(), cuisineType.getName());
         model.addAttribute("actualRecipe", actualRecipe);

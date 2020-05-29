@@ -48,11 +48,35 @@
             <div class="col-sm-6">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title" style="padding-bottom: 2%">Trudność przepisu: <c:forEach var="i" begin="1" end="${actualRecipe.level}">&#9733; </c:forEach></li></h4>
-                        <h4 class="card-title" style="padding-bottom: 2%;">Kaloryczność: ${actualRecipe.kcal}</h4>
-                        <h4 class="card-title" style="padding-bottom: 2%;">Czas zrobienia: ${actualRecipe.time}</h4>
+                        <h4 class="card-title" style="padding-bottom: 2%">Trudność przepisu: <c:forEach var="i" begin="1" end="${actualRecipe.level}">&#9733; </c:forEach></h4>
+                        <c:choose>
+                            <c:when test="${actualRecipe.kcal != 0}">
+                                <h4 class="card-title" style="padding-bottom: 2%;">Kaloryczność: ${actualRecipe.kcal}
+                                    kcal</h4>
+                            </c:when>
+                            <c:otherwise>
+                                <h4 class="card-title" style="padding-bottom: 2%;">Kaloryczność: Nie podano</h4>
+                            </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                            <c:when test="${not empty actualRecipe.time}">
+                                <h4 class="card-title" style="padding-bottom: 2%;">Czas
+                                    przygotowania: ${actualRecipe.time}</h4>
+                            </c:when>
+                            <c:otherwise>
+                                <h4 class="card-title" style="padding-bottom: 2%;">Czas przygotowania: Nie podano</h4>
+                            </c:otherwise>
+                        </c:choose>
                         <h4 class="card-title" style="padding-bottom: 2%;">Rodzaj kuchni: ${actualRecipe.cuisine}</h4>
                         <h4 class="card-title" style="padding-bottom: 2%;">Typ kuchni: ${actualRecipe.type}</h4>
+                        <c:choose>
+                            <c:when test="${not empty actualRecipe.other}">
+                                <h4 class="card-title" style="font-weight: bold">Dodatkowe informacje:</h4>
+                            </c:when>
+                            <c:otherwise>
+                            </c:otherwise>
+                        </c:choose>
+                        <p class="card-text">${actualRecipe.other}</p>
                         <h4 class="card-title" style="font-weight: bold">Składniki:</h4>
                         <p class="card-text">${actualRecipe.ingredients}</p>
                     </div>
@@ -61,7 +85,8 @@
             <div class="col-sm-6">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title" style="padding-bottom: 5%;"><c:if test="${recipe.recommend == true}"></c:if>Polecany  przepis przez kucharza!</h4>
+                        <h4 class="card-title" style="padding-bottom: 5%;"><c:if
+                                test="${recipe.recommend == true}"></c:if>Polecany przepis przez kucharza!</h4>
                         <h4 class="card-title">Opis przygotowania:</h4>
                         <p class="card-text">${actualRecipe.description}</p>
                     </div>

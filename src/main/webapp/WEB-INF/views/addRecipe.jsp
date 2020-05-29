@@ -84,7 +84,7 @@
         <spring:bind path="kcal">
             <div class="margin-bottom">
                 <form:label path="kcal">Kalorie</form:label>
-                    <form:input type="text" path="kcal" class="form-control" placeholder="Ilość kalorii"
+                    <form:input type="number" path="kcal" class="form-control" placeholder="Ilość kalorii" value="0"
                             autofocus="true"></form:input>
             </div>
         </spring:bind>

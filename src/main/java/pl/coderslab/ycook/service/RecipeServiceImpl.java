@@ -2,7 +2,6 @@ package pl.coderslab.ycook.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.coderslab.ycook.entity.Cuisine;
 import pl.coderslab.ycook.entity.Recipe;
 import pl.coderslab.ycook.repository.RecipeRepository;
 
@@ -31,6 +30,16 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public List<Recipe> findAllByName(String name) {
         return recipeRepository.findAllByName(name);
+    }
+
+    @Override
+    public List<Recipe> findAllByCuisine(long cuisineValue) {
+        return recipeRepository.findAllByCuisine(cuisineValue);
+    }
+
+    @Override
+    public List<Recipe> findAllByNameAndCuisine(String name, long cuisineValue) {
+        return recipeRepository.findAllByNameAndCuisine(name, cuisineValue);
     }
 
     @Override

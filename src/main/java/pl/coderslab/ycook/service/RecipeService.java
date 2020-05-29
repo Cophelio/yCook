@@ -1,7 +1,5 @@
 package pl.coderslab.ycook.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import pl.coderslab.ycook.entity.Cuisine;
 import pl.coderslab.ycook.entity.Recipe;
 
 import java.util.List;
@@ -19,4 +17,8 @@ public interface RecipeService {
     List<Recipe> getAll();
 
     List<Recipe> findAllByName(String name);
+
+    List<Recipe> findAllByCuisine(long cuisineValue);
+
+    List<Recipe> findAllByNameAndCuisine(String name, long cuisineValue);
 }

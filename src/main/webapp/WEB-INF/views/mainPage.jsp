@@ -103,57 +103,23 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <form action="${contextPath}/mainPage" class="form-inline" role="form">
-                            <%--                    <form:form method="GET" modelAttribute="" class="form-inline" role="form">--%>
                         <div class="form-group">
-                                <%--                            <spring:bind path="name">--%>
-                                <%--                                <form:input type="text" path="name" class="form-control" placeholder="Nazwa użytkownika"--%>
-                                <%--                                            autofocus="true"></form:input>--%>
-                                <%--                            </spring:bind>--%>
-                                <%--                                                            <label class="filter-col" style="margin-right:0;" for="name">Nazwa:</label>--%>
-                                <%--                                                            <input id="name" class="form-control">--%>
-                            <label class="filter-col" style="margin-right:0;" for="name">Nazwa użytkownika</label>
-                            <input id="name" class="form-control" type="text" name="name">
-                                <%--                                <label class="filter-col" style="margin-right:0;" for="pref-perpage">Rows per page:</label>--%>
-                                <%--                                <select id="pref-perpage" class="form-control">--%>
-                                <%--                                    <option value="2">2</option>--%>
-                                <%--                                    <option value="3">3</option>--%>
-                                <%--                                    <option value="4">4</option>--%>
-                                <%--                                    <option value="5">5</option>--%>
-                                <%--                                    <option value="6">6</option>--%>
-                                <%--                                    <option value="7">7</option>--%>
-                                <%--                                    <option value="8">8</option>--%>
-                                <%--                                    <option value="9">9</option>--%>
-                                <%--                                    <option selected="selected" value="10">10</option>--%>
-                                <%--                                    <option value="15">15</option>--%>
-                                <%--                                    <option value="20">20</option>--%>
-                                <%--                                    <option value="30">30</option>--%>
-                                <%--                                    <option value="40">40</option>--%>
-                                <%--                                    <option value="50">50</option>--%>
-                                <%--                                    <option value="100">100</option>--%>
-                                <%--                                    <option value="200">200</option>--%>
-                                <%--                                    <option value="300">300</option>--%>
-                                <%--                                    <option value="400">400</option>--%>
-                                <%--                                    <option value="500">500</option>--%>
-                                <%--                                    <option value="1000">1000</option>--%>
-                                <%--                                </select>--%>
-                                <%--                            </div> <!-- form group [rows] -->--%>
-                                <%--                            <div class="form-group">--%>
-                                <%--                                <label class="filter-col" style="margin-right:0;" for="pref-search">Search:</label>--%>
-                                <%--                                <input type="text" class="form-control input-sm" id="pref-search">--%>
-                                <%--                            </div><!-- form group [search] -->--%>
-                                <%--                            <div class="form-group">--%>
-                                <%--                                <label class="filter-col" style="margin-right:0;" for="pref-orderby">Order by:</label>--%>
-                                <%--                                <select id="pref-orderby" class="form-control">--%>
-                                <%--                                    <option>Descendent</option>--%>
-                                <%--                                </select>--%>
-                                <%--                            </div> <!-- form group [order by] -->--%>
-                                <%--                            <div class="form-group">--%>
-                                <%--                                <div class="checkbox" style="margin-left:10px; margin-right:10px;">--%>
-                                <%--                                    <label><input type="checkbox"> Remember parameters</label>--%>
-                                <%--                                </div>--%>
-                            <button type="submit" class="btn btn-default filter-col">
-                                <span class="glyphicon glyphicon-record"></span> Zastosuj filtry
-                            </button>
+                            <label class="filter-col" style="margin-right:0;" for="name">Nazwa przepisu</label>
+                            <input id="name" class="form-control" type="text" name="name" placeholder="Wpisz nazwe">
+
+                            <label class="filter-col" style="margin-right:0;" for="cuisineValue">Wybierz kuchnie</label>
+                            <select class="form-control" name="cuisineValue" id="cuisineValue">
+                                <option value=""></option>
+                                <c:forEach items="${cuisines}" var="cuisine">
+                                    <c:if test="${cuisine != cuisines}">
+                                        <option value="${cuisine.value}">${cuisine.value}</option>
+                                    </c:if>
+                                </c:forEach>
+                            </select>
+
+                                <button type="submit" class="btn btn-default filter-col">
+                                    <span class="glyphicon glyphicon-record"></span> Zastosuj filtry
+                                </button>
                         </div>
                     </form>
                 </div>
@@ -191,18 +157,39 @@
                                 <li class="list-group-item"><p style="font-weight: bolder">Poziom
                                     trudności:</p>
                                     <c:forEach var="i" begin="1" end="${recipe.level}">&#9733; </c:forEach></li>
-                                <li class="list-group-item"><p style="font-weight: bolder">
-                                    Kaloryczność:</p> ${recipe.kcal}</li>
-                                <li class="list-group-item"><p style="font-weight: bolder">Czas
-                                    zrobienia:</p> ${recipe.time}</li>
+                                <c:choose>
+                                    <c:when test="${recipe.kcal != 0}">
+                                        <li class="list-group-item"><p style="font-weight: bolder">
+                                            Kaloryczność:</p>${recipe.kcal} kcal
+                                        </li>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li class="list-group-item" style="font-weight: bold"><p
+                                                style="font-weight: bolder">Kaloryczność:</p>
+                                            <div style="font-style: italic">Nie określono kaloryczności
+                                                przepisu
+                                            </div>
+                                        </li>
+                                    </c:otherwise>
+                                </c:choose>
+                                <c:choose>
+                                    <c:when test="${not empty recipe.time}">
+                                        <li class="list-group-item"><p style="font-weight: bolder">Czas
+                                            przygotowania:</p>${recipe.time}</li>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li class="list-group-item" style="font-weight: bold"><p
+                                                style="font-weight: bolder">Czas
+                                            przygotowania:</p>
+                                            <div style="font-style: italic">Nie określono czasu przygotowania
+                                            </div>
+                                        </li>
+                                    </c:otherwise>
+                                </c:choose>
                                 <li class="list-group-item"><p style="font-weight: bolder">Rodzaj
                                     kuchni:</p> ${recipe.cuisine}</li>
                                 <li class="list-group-item"><p style="font-weight: bolder">Typ
                                     kuchni:</p>${recipe.type}</li>
-                                    <%--                                    <li class="list-group-item"><p style="font-weight: bolder">--%>
-                                    <%--                                        Składniki:</p>${recipe.ingredients}</li>--%>
-                                    <%--                                    <li class="list-group-item"><p style="font-weight: bolder">Opis--%>
-                                    <%--                                        przygotowania:</p>${recipe.description}</li>--%>
                             </ul>
                             <div class="card-body">
                                 <button type="button" class="btn btn-primary alert-danger" data-toggle="modal"

@@ -7,4 +7,6 @@ public interface CuisineService {
     ArrayList<Cuisine> getAll();
 
     Cuisine findById(long id);
+
+    Cuisine findByName(String name);
 }

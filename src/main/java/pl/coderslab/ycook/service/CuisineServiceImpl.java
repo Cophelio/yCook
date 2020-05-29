@@ -28,4 +28,9 @@ public class CuisineServiceImpl implements CuisineService {
         Optional<Cuisine> byId = cuisineRepository.findById(id);
         return byId.get();
     }
+
+    @Override
+    public Cuisine findByName(String name) {
+        return cuisineRepository.findByName(name);
+    }
 }

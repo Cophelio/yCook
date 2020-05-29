@@ -12,7 +12,7 @@ public class Recipe {
 
     private String name;
 
-    private String cuisine;
+    private long cuisine;
 
     private String type;
 
@@ -20,7 +20,7 @@ public class Recipe {
 
     private String description;
 
-    private String kcal;
+    private int kcal;
 
     private String other;
 
@@ -50,11 +50,11 @@ public class Recipe {
         this.name = name;
     }
 
-    public String getCuisine() {
+    public long getCuisine() {
         return cuisine;
     }
 
-    public void setCuisine(String cuisine) {
+    public void setCuisine(long cuisine) {
         this.cuisine = cuisine;
     }
 
@@ -82,11 +82,11 @@ public class Recipe {
         this.description = description;
     }
 
-    public String getKcal() {
+    public int getKcal() {
         return kcal;
     }
 
-    public void setKcal(String kcal) {
+    public void setKcal(int kcal) {
         this.kcal = kcal;
     }
 
