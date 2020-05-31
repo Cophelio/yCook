@@ -14,7 +14,7 @@ public class Recipe {
 
     private long cuisine;
 
-    private String type;
+    private long type;
 
     private String ingredients;
 
@@ -29,6 +29,8 @@ public class Recipe {
     private String level;
 
     private boolean recommend;
+
+    private boolean favorite = false;
 
     @ManyToOne()
     @JoinColumn(name = "user_id")
@@ -58,11 +60,11 @@ public class Recipe {
         this.cuisine = cuisine;
     }
 
-    public String getType() {
+    public long getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(long type) {
         this.type = type;
     }
 
@@ -128,5 +130,13 @@ public class Recipe {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
     }
 }

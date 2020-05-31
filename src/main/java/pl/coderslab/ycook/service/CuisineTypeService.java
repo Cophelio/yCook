@@ -8,4 +8,6 @@ public interface CuisineTypeService {
     ArrayList<CuisineType> getAll();
 
     CuisineType findById(long id);
+
+    CuisineType findByName(String name);
 }

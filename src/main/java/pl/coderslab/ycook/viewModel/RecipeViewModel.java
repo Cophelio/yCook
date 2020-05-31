@@ -26,6 +26,8 @@ public class RecipeViewModel {
 
     private boolean recommend;
 
+    private boolean favorite;
+
     public RecipeViewModel() {
     }
 
@@ -41,6 +43,7 @@ public class RecipeViewModel {
         this.time = recipe.getTime();
         this.level = recipe.getLevel();
         this.recommend = recipe.isRecommend();
+        this.favorite = recipe.isFavorite();
     }
 
     public int getId() {
@@ -129,5 +132,13 @@ public class RecipeViewModel {
 
     public void setRecommend(boolean recommend) {
         this.recommend = recommend;
+    }
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
     }
 }

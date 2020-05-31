@@ -77,7 +77,7 @@
                             </a>
                         </div>
                         <div class="dropdown-divider">
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="${contextPath}/mainPage/favorite">
                                 <div class="text-right"
                                      style="padding-right: 15%; padding-bottom: 2%; font-weight: bolder">Ulubione
                                 </div>
@@ -98,7 +98,7 @@
     </div>
 
     <br>
-    <div class="container" style="padding-top: 100px">
+    <div class="container" style="padding-top: 1%">
         <div id="filter-panel" class="collapse filter-panel">
             <div class="panel panel-default">
                 <div class="panel-body">
@@ -117,9 +117,19 @@
                                 </c:forEach>
                             </select>
 
-                                <button type="submit" class="btn btn-default filter-col">
-                                    <span class="glyphicon glyphicon-record"></span> Zastosuj filtry
-                                </button>
+                            <label class="filter-col" style="margin-right:0;" for="cuisineTypeValue">Wybierz typ</label>
+                            <select class="form-control" name="cuisineTypeValue" id="cuisineTypeValue">
+                                <option value=""></option>
+                                <c:forEach items="${cuisineTypes}" var="cuisineType">
+                                    <c:if test="${cuisineType != cuisineTypes}">
+                                        <option value="${cuisineType.value}">${cuisineType.value}</option>
+                                    </c:if>
+                                </c:forEach>
+                            </select>
+
+                            <button type="submit" class="btn btn-default filter-col">
+                                <span class="glyphicon glyphicon-record"></span> Zastosuj filtry
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -129,128 +139,190 @@
             <span class="glyphicon glyphicon-cog"></span> Filtruj przepisy
         </button>
     </div>
+    <div class="container" style="padding-top: 10px">
+        <button type="button" class="btn btn-primary pull-right">
+            <span class="glyphicon glyphicon-trash"></span><a href="${contextPath}/mainPage" style="color: white"> Usuń
+            wszystkie filtry</a>
+        </button>
+    </div>
 
     <div class="container">
-        <h3 style=" padding-top: 50px; font-weight: bolder">Lista przepisów</h3>
+        <h3 style="padding-top: 50px; font-weight: bolder">Lista przepisów</h3>
     </div>
 
     <br>
     <div class="container">
         <div class="row">
+            <c:if test="${empty allRecipes}"><h1 style="text-align: center; padding-top: 15%">NIC TU KURWA NIE
+                MA</h1></c:if>
             <c:forEach items="${allRecipes}" var="recipe">
                 <div class="col-sm-6">
                     <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title" style="font-weight: bolder">${recipe.name}</h4>
-                            <img class="card-img-top" src="" alt="Grafika">
-                            <c:choose>
-                                <c:when test="${recipe.recommend == true}">
-                                    <p class="card-text" style="font-weight: bolder">Polecane przez kucharza!</p>
-                                </c:when>
-                                <c:otherwise>
-                                    <p>
-                                        <br>
-                                    </p>
-                                </c:otherwise>
-                            </c:choose>
-                            <ul class="list-group list-group-flush" style="width: 35rem;">
-                                <li class="list-group-item"><p style="font-weight: bolder">Poziom
-                                    trudności:</p>
-                                    <c:forEach var="i" begin="1" end="${recipe.level}">&#9733; </c:forEach></li>
-                                <c:choose>
-                                    <c:when test="${recipe.kcal != 0}">
-                                        <li class="list-group-item"><p style="font-weight: bolder">
-                                            Kaloryczność:</p>${recipe.kcal} kcal
-                                        </li>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <li class="list-group-item" style="font-weight: bold"><p
-                                                style="font-weight: bolder">Kaloryczność:</p>
-                                            <div style="font-style: italic">Nie określono kaloryczności
-                                                przepisu
-                                            </div>
-                                        </li>
-                                    </c:otherwise>
-                                </c:choose>
-                                <c:choose>
-                                    <c:when test="${not empty recipe.time}">
-                                        <li class="list-group-item"><p style="font-weight: bolder">Czas
-                                            przygotowania:</p>${recipe.time}</li>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <li class="list-group-item" style="font-weight: bold"><p
-                                                style="font-weight: bolder">Czas
-                                            przygotowania:</p>
-                                            <div style="font-style: italic">Nie określono czasu przygotowania
-                                            </div>
-                                        </li>
-                                    </c:otherwise>
-                                </c:choose>
-                                <li class="list-group-item"><p style="font-weight: bolder">Rodzaj
-                                    kuchni:</p> ${recipe.cuisine}</li>
-                                <li class="list-group-item"><p style="font-weight: bolder">Typ
-                                    kuchni:</p>${recipe.type}</li>
-                            </ul>
-                            <div class="card-body">
-                                <button type="button" class="btn btn-primary alert-danger" data-toggle="modal"
-                                        data-target="#exampleModal">
-                                    Usuń przepis
+                        <h4 class="card-title" style="font-weight: bolder">${recipe.name}</h4>
+                        <c:choose>
+                            <c:when test="${recipe.favorite == false}">
+                                <button type="button" style="color: goldenrod"
+                                        class="glyphicon glyphicon-star-empty"
+                                        data-toggle="modal"
+                                        data-target="#exampleFavModal">
                                 </button>
 
-                                <a href="${contextPath}/mainPage/recipe/edit/${recipe.id}" class="btn btn-primary">Edytuj
-                                    przepis</a>
-
-                                <a href="${contextPath}/mainPage/recipe/${recipe.id}"
-                                   class="btn btn-primary alert-success ">Zobacz
-                                    przepis</a>
-                            </div>
-                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                                 aria-labelledby="exampleModalFirst" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                            <h5 class="modal-title" id="exampleModalFirst"
-                                                style="font-weight: bolder">Usuwanie</h5>
-                                        </div>
-                                        <div class="modal-body">
-                                            Czy na pewno chcesz usunąć przepis o nazwie: ${recipe.name} ?
-                                        </div>
-                                        <div class="modal-footer">
-                                            <a href="${contextPath}/mainPage" class="btn btn-secondary"
-                                               type="submit">Anuluj</a>
-                                            <a href="${contextPath}/mainPage/recipe/delete/${recipe.id}"
-                                               class="btn btn-secondary alert-danger" type="submit">Usuń</a>
+                                <div class="modal fade" id="exampleFavModal" tabindex="-1" role="dialog"
+                                     aria-labelledby="exampleFavFalse" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <h5 class="modal-title" id="exampleFavFalse"
+                                                    style="font-weight: bolder">Usuwanie</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                Czy na pewno chcesz dodać przepis o nazwie: ${recipe.name} do
+                                                ulubionych ?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a href="${contextPath}/mainPage" class="btn btn-secondary"
+                                                   type="submit">Anuluj</a>
+                                                <a href="${contextPath}/mainPage/recipe/add/favorite/${recipe.id}"
+                                                   class="btn btn-secondary alert-success" type="submit">Dodaj
+                                                    do
+                                                    ulubionych</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <br>
+                            </c:when>
+                            <c:otherwise>
+                                <button type="button" style="color: goldenrod" class="glyphicon glyphicon-star"
+                                        data-toggle="modal"
+                                        data-target="#exampleFavModal">
+                                </button>
+
+                                <div class="modal fade" id="exampleFavModal" tabindex="-1" role="dialog"
+                                     aria-labelledby="exampleFavTrue" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <h5 class="modal-title" id="exampleFavTrue"
+                                                    style="font-weight: bolder">Usuwanie</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                Czy na pewno chcesz usunać przepis o nazwie: ${recipe.name} z
+                                                ulubionych ?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a href="${contextPath}/mainPage" class="btn btn-secondary"
+                                                   type="submit">Anuluj</a>
+                                                <a href="${contextPath}/mainPage/recipe/delete/favorite/${recipe.id}"
+                                                   class="btn btn-secondary alert-danger" type="submit">Usuń z
+                                                    ulubionych</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
+
+                        <img class="card-img-top" src="" alt="Grafika">
+                        <c:choose>
+                            <c:when test="${recipe.recommend == true}">
+                                <p class="card-text" style="font-weight: bolder">Polecane przez
+                                    kucharza!</p>
+                            </c:when>
+                            <c:otherwise>
+                                <p>
+                                    <br>
+                                </p>
+                            </c:otherwise>
+                        </c:choose>
+                        <ul class="list-group list-group-flush" style="width: 35rem;">
+                            <li class="list-group-item"><p style="font-weight: bolder">Poziom
+                                trudności:</p>
+                                <c:forEach var="i" begin="1" end="${recipe.level}">&#9733; </c:forEach></li>
+                            <c:choose>
+                                <c:when test="${recipe.kcal != 0}">
+                                    <li class="list-group-item"><p style="font-weight: bolder">
+                                        Kaloryczność:</p>${recipe.kcal} kcal
+                                    </li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li class="list-group-item" style="font-weight: bold"><p
+                                            style="font-weight: bolder">Kaloryczność:</p>
+                                        <div style="font-style: italic">Nie określono kaloryczności
+                                            przepisu
+                                        </div>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
+                            <c:choose>
+                                <c:when test="${not empty recipe.time}">
+                                    <li class="list-group-item"><p style="font-weight: bolder">Czas
+                                        przygotowania:</p>${recipe.time}</li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li class="list-group-item" style="font-weight: bold"><p
+                                            style="font-weight: bolder">Czas
+                                        przygotowania:</p>
+                                        <div style="font-style: italic">Nie określono czasu przygotowania
+                                        </div>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
+                            <li class="list-group-item"><p style="font-weight: bolder">Rodzaj
+                                kuchni:</p> ${recipe.cuisine}</li>
+                            <li class="list-group-item"><p style="font-weight: bolder">Typ
+                                kuchni:</p>${recipe.type}</li>
+                        </ul>
+                        <div class="card-body">
+                            <button type="button" class="btn btn-primary alert-danger" data-toggle="modal"
+                                    data-target="#exampleModal">
+                                Usuń przepis
+                            </button>
+
+                            <a href="${contextPath}/mainPage/recipe/edit/${recipe.id}"
+                               class="btn btn-primary">Edytuj
+                                przepis</a>
+
+                            <a href="${contextPath}/mainPage/recipe/${recipe.id}"
+                               class="btn btn-primary alert-success ">Zobacz
+                                przepis</a>
                         </div>
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalFirst" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <h5 class="modal-title" id="exampleModalFirst"
+                                            style="font-weight: bolder">Usuwanie</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        Czy na pewno chcesz usunąć przepis o nazwie: ${recipe.name} ?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="${contextPath}/mainPage" class="btn btn-secondary"
+                                           type="submit">Anuluj</a>
+                                        <a href="${contextPath}/mainPage/recipe/delete/${recipe.id}"
+                                           class="btn btn-secondary alert-danger" type="submit">Usuń</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
                     </div>
                 </div>
             </c:forEach>
-
         </div>
-    </div>
-
-    <div class="container panel-footer">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination no-margin pull-right">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1">Poprzednia strona</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">Następna strona</a>
-                </li>
-            </ul>
-        </nav>
     </div>
 </sec:authorize>
 
