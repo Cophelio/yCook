@@ -12,6 +12,8 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 
     int countAllByUser_Id(Long user_id);
 
+    int countAllByUser_IdAndFavorite(Long user_id, boolean favorite);
+
     List<Recipe> findAll();
 
     List<Recipe> findAllByName(String name);
@@ -19,8 +21,6 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
     List<Recipe> findAllByCuisine(long cuisineValue);
 
     List<Recipe> findAllByType(long cuisineTypeValue);
-
-    List<Recipe> findAllByRecommend(boolean recommended);
 
     List<Recipe> findAllByFavoriteIsTrue();
 
@@ -32,17 +32,5 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 
     List<Recipe> findAllByNameAndCuisineAndType(String name, long cuisineValue, long cuisineTypeValue);
 
-    List<Recipe> findAllByNameAndRecommend(String name, boolean recommended);
 
-    List<Recipe> findAllByCuisineAndRecommend(long cuisineValue, boolean recommended);
-
-    List<Recipe> findAllByTypeAndRecommend(long cuisineTypeValue, boolean recommended);
-
-    List<Recipe> findAllByNameAndCuisineAndRecommend(String name, long cuisineValue, boolean recommended);
-
-    List<Recipe> findAllByNameAndTypeAndRecommend(String name, long cuisineTypeValue, boolean recommended);
-
-    List<Recipe> findAllByCuisineAndTypeAndRecommend(long cuisineValue, long cuisineTypeValue, boolean recommended);
-
-    List<Recipe> findAllByNameAndCuisineAndTypeAndRecommend(String name, long cuisineValue, long cuisineTypeValue, boolean recommended);
 }

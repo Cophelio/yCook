@@ -26,8 +26,6 @@ public interface RecipeService {
 
     List<Recipe> findAllByType(long cuisineTypeValue);
 
-    List<Recipe> findAllByRecommend(boolean recommended);
-
     List<Recipe> findAllByFavoriteIsTrue();
 
     List<Recipe> findAllByNameAndCuisine(String name, long cuisineValue);
@@ -36,21 +34,9 @@ public interface RecipeService {
 
     List<Recipe> findAllByCuisineAndType(long cuisineValue, long cuisineTypeValue);
 
-    List<Recipe> findAllByNameAndRecommend(String name, boolean recommended);
-
-    List<Recipe> findAllByCuisineAndRecommend(long cuisineValue, boolean recommended);
-
-    List<Recipe> findAllByTypeAndRecommend(long cuisineTypeValue, boolean recommended);
-
     List<Recipe> findAllByNameAndCuisineAndType(String name, long cuisineValue, long cuisineTypeValue);
 
-    List<Recipe> findAllByNameAndCuisineAndRecommend(String name, long cuisineValue, boolean recommended);
-
-    List<Recipe> findAllByNameAndTypeAndRecommend(String name, long cuisineTypeValue, boolean recommended);
-
-    List<Recipe> findAllByCuisineAndTypeAndRecommend(long cuisineValue, long cuisineTypeValue, boolean recommended);
-
-    List<Recipe> findAllByNameAndCuisineAndTypeAndRecommend(String name, long cuisineValue, long cuisineTypeValue, boolean recommended);
-
     int countAllByUser_Id(Long user_id);
+
+    int countAllByUser_IdAndFavorite(Long user_id, boolean favorite);
 }

@@ -63,7 +63,6 @@ public class MainPageController {
         String name = null;
         String cuisineValue = null;
         String cuisineTypeValue = null;
-        boolean recommended = false;
 
         if (request.getParameter("name") != null && !(request.getParameter("name").isEmpty())) {
             name = request.getParameter("name");
@@ -74,9 +73,6 @@ public class MainPageController {
         if (request.getParameter("cuisineTypeValue") != null && !(request.getParameter("cuisineTypeValue").isEmpty())) {
             cuisineTypeValue = request.getParameter("cuisineTypeValue");
         }
-//        if (request.getParameter("recommended") == false && !(request.getParameter("recommended").isEmpty())) {
-//            recommended = request.getParameter("recommended");
-//        }
 
         if (name != null && cuisineValue != null && cuisineTypeValue != null) {
             long cuisineId = cuisineService.findByName(cuisineValue).getId();
@@ -264,17 +260,15 @@ public class MainPageController {
         return cuisineTypes;
     }
 
-
-    @ModelAttribute("numberOfRecipesByUser")
-    public int getNumberOfRecipesForUser() {
+    @ModelAttribute("userId")
+    public long getUserId() {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             org.springframework.security.core.userdetails.User principal =
                     (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
             User user = userService.findByUsername(principal.getUsername());
-            Long userId = user.getId();
-            return recipeService.countAllByUser_Id(userId);
-        } catch (NullPointerException e) {
+            return user.getId();
+        } catch (NullPointerException ignored) {
         }
         return 0;
     }

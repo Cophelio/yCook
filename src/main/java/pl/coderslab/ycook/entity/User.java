@@ -22,6 +22,10 @@ public class User {
 
     private int enabled;
 
+//    @OneToOne(mappedBy = "userDetails", cascade = CascadeType.ALL,
+//            fetch = FetchType.LAZY, optional = false)
+//    private UserDetails userDetails;
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;

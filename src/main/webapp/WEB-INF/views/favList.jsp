@@ -99,11 +99,8 @@
                 <div class="col-sm-6">
                     <div class="card">
                         <h4 class="card-title" style="font-weight: bolder">${recipe.name}</h4>
-                        <button type="button" style="color: goldenrod"
-                                class="glyphicon glyphicon-star"
-                                data-toggle="modal"
-                                data-target="#exampleFavModal">
-                        </button>
+                        <span style="color: goldenrod" class="glyphicon glyphicon-star">
+                        </span>
                         <img class="card-img-top" src="" alt="Grafika">
                         <c:choose>
                             <c:when test="${recipe.recommend == true}">

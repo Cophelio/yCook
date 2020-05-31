@@ -70,7 +70,7 @@
                     </button>
                     <div class="dropdown-menu">
                         <div class="dropdown-divider">
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="${contextPath}/profile/${userId}">
                                 <div class="text-right"
                                      style="padding-right: 15%; padding-bottom: 2%; font-weight: bolder">Profil
                                 </div>

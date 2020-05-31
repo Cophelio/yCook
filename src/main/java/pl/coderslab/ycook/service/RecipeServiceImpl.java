@@ -43,11 +43,6 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public List<Recipe> findAllByRecommend(boolean recommended) {
-        return recipeRepository.findAllByRecommend(recommended);
-    }
-
-    @Override
     public List<Recipe> findAllByFavoriteIsTrue() {
         return recipeRepository.findAllByFavoriteIsTrue();
     }
@@ -68,48 +63,19 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public List<Recipe> findAllByNameAndRecommend(String name, boolean recommended) {
-        return recipeRepository.findAllByNameAndRecommend(name, recommended);
-    }
-
-    @Override
-    public List<Recipe> findAllByCuisineAndRecommend(long cuisineValue, boolean recommended) {
-        return recipeRepository.findAllByCuisineAndRecommend(cuisineValue, recommended);
-    }
-
-    @Override
-    public List<Recipe> findAllByTypeAndRecommend(long cuisineTypeValue, boolean recommended) {
-        return recipeRepository.findAllByTypeAndRecommend(cuisineTypeValue, recommended);
-    }
-
-    @Override
     public List<Recipe> findAllByNameAndCuisineAndType(String name, long cuisineValue, long cuisineTypeValue) {
         return recipeRepository.findAllByNameAndCuisineAndType(name, cuisineValue, cuisineTypeValue);
     }
 
-    @Override
-    public List<Recipe> findAllByNameAndCuisineAndRecommend(String name, long cuisineValue, boolean recommended) {
-        return recipeRepository.findAllByNameAndCuisineAndRecommend(name, cuisineValue, recommended);
-    }
-
-    @Override
-    public List<Recipe> findAllByNameAndTypeAndRecommend(String name, long cuisineTypeValue, boolean recommended) {
-        return recipeRepository.findAllByNameAndTypeAndRecommend(name, cuisineTypeValue, recommended);
-    }
-
-    @Override
-    public List<Recipe> findAllByCuisineAndTypeAndRecommend(long cuisineValue, long cuisineTypeValue, boolean recommended) {
-        return recipeRepository.findAllByCuisineAndTypeAndRecommend(cuisineValue, cuisineTypeValue, recommended);
-    }
-
-    @Override
-    public List<Recipe> findAllByNameAndCuisineAndTypeAndRecommend(String name, long cuisineValue, long cuisineTypeValue, boolean recommended) {
-        return recipeRepository.findAllByNameAndCuisineAndTypeAndRecommend(name, cuisineValue, cuisineTypeValue, recommended);
-    }
 
     @Override
     public int countAllByUser_Id(Long user_id) {
         return recipeRepository.countAllByUser_Id(user_id);
+    }
+
+    @Override
+    public int countAllByUser_IdAndFavorite(Long user_id, boolean favorite) {
+        return recipeRepository.countAllByUser_IdAndFavorite(user_id, favorite);
     }
 
     @Override
