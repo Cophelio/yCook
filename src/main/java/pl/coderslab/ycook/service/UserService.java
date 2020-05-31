@@ -1,10 +1,9 @@
 package pl.coderslab.ycook.service;
 
 import pl.coderslab.ycook.entity.User;
-import pl.coderslab.ycook.entity.UserDetails;
 
 public interface UserService {
-    void save(User user);
+    User save(User user);
 
 //    void saveDetails(User user, UserDetails userDetails);
 

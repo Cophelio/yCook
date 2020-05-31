@@ -2,6 +2,7 @@ package pl.coderslab.ycook.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.coderslab.ycook.entity.User;
 import pl.coderslab.ycook.entity.UserDetails;
 import pl.coderslab.ycook.repository.UserDetailsRepository;
 
@@ -22,10 +23,16 @@ public class UserDetailsServiceImp implements UserDetailsService {
         foundedUser.setAbout(about);
         foundedUser.setFavouriteKitchen(favoriteKitchen);
         foundedUser.setContact(contact);
+        userDetailsRepository.save(userDetails);
     }
 
     @Override
     public UserDetails findById(long id) {
         return userDetailsRepository.findById(id);
+    }
+
+    @Override
+    public UserDetails findByUser(User user) {
+        return userDetailsRepository.findByUser(user);
     }
 }

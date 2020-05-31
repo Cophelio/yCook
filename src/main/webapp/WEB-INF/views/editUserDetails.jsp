@@ -81,7 +81,7 @@
                         </fieldset>
 
                         <div class="form-group-sm extra-margin-top" style="margin-left: 40%">
-                            <a href="${contextPath}/profile/${getActualUserId}" class="btn btn-info" type="submit">Anuluj</a>
+                            <a href="${contextPath}/profile/${getActualUserId}" class="btn btn-info">Anuluj</a>
                             <button class="btn btn-info" type="submit">Edytuj informacje</button>
                         </div>
                     </form:form>

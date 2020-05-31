@@ -86,38 +86,38 @@
                                  aria-labelledby="exampleChangePass" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                            <h5 class="modal-title" id="exampleChangePass"
-                                                style="font-weight: bolder">Zmiana hasła</h5>
-                                        </div>
-                                        <div class="modal-body">
-                                            Wpisz nowe hasło poniżej, pamiętaj aby wpisać dokładnie takie samo w obu
-                                            polach.
-                                            <form method="POST"
-                                                  action="${contextPath}/profile/${getActualUserId}/changePassword"
-                                                  class="form-signin">
-                                                <input name="password" type="text" class="form-control"
+                                        <form method="POST"
+                                              action="${contextPath}/profile/${getActualUserId}/changePassword"
+                                              class="form-signin">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <h5 class="modal-title" id="exampleChangePass"
+                                                    style="font-weight: bolder">Zmiana hasła</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                Wpisz nowe hasło poniżej, pamiętaj aby wpisać dokładnie takie samo w obu
+                                                polach.
+                                                <input name="password" type="password" class="form-control"
                                                        placeholder="Hasło"/>
-                                                <input name="passwordConfirm" type="text" class="form-control"
+                                                <input name="passwordConfirm" type="password" class="form-control"
                                                        placeholder="Powtórz hasło"/>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <a href="${contextPath}/profile/${getActualUserId}"
-                                               class="btn btn-secondary"
-                                               type="submit">Anuluj</a>
-                                            <button class="btn btn-secondary alert-success" type="submit">Zmień hasło
-                                            </button>
-                                        </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a href="${contextPath}/profile/${getActualUserId}"
+                                                   class="btn btn-secondary"
+                                                   type="submit">Anuluj</a>
+                                                <button class="btn btn-secondary alert-success" type="submit">Zmień
+                                                    hasło
+                                                </button>
+                                            </div>
                                         </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                         <div class="col-xs-12 col-sm-4 emphasis">
                             <H3><small>Powrót na stronę główną</small></H3>
                             <button class="btn btn-info btn-block"><span class="fa fa-user"></span><a

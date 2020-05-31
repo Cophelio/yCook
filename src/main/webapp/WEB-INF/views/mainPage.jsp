@@ -164,10 +164,10 @@
                                 <button type="button" style="color: goldenrod"
                                         class="glyphicon glyphicon-star-empty"
                                         data-toggle="modal"
-                                        data-target="#exampleFavModal">
+                                        data-target="#exampleFavModal${recipe.id}">
                                 </button>
 
-                                <div class="modal fade" id="exampleFavModal" tabindex="-1" role="dialog"
+                                <div class="modal fade" id="exampleFavModal${recipe.id}" tabindex="-1" role="dialog"
                                      aria-labelledby="exampleFavFalse" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
@@ -198,10 +198,10 @@
                             <c:otherwise>
                                 <button type="button" style="color: goldenrod" class="glyphicon glyphicon-star"
                                         data-toggle="modal"
-                                        data-target="#exampleFavModal">
+                                        data-target="#exampleFavModal${recipe.id}">
                                 </button>
 
-                                <div class="modal fade" id="exampleFavModal" tabindex="-1" role="dialog"
+                                <div class="modal fade" id="exampleFavModal${recipe.id}" tabindex="-1" role="dialog"
                                      aria-labelledby="exampleFavTrue" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">

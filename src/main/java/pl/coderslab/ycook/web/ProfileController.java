@@ -1,6 +1,7 @@
 package pl.coderslab.ycook.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -45,9 +46,9 @@ public class ProfileController {
         return "profile";
     }
 
-    @PostMapping("/profile/{id}/changePassword")
-    public String changePassword(@PathVariable int id, @ModelAttribute("passwordForm") User passwordForm, Model model, BindingResult bindingResult) {
-        model.addAttribute("passwordForm", passwordForm);
+    @RequestMapping("/profile/{id}/changePassword")
+//    @PreAuthorize("hasRole('ROLE_USER')")
+    public String changePassword(@PathVariable int id, HttpServletRequest request, BindingResult bindingResult) {
 //
 //        userValidator.validate(passwordForm, bindingResult);
 //
@@ -55,23 +56,28 @@ public class ProfileController {
 //            return "profile";
 //        }
 
+        String password = request.getParameter("password");
+
         User foundedUser = userService.findById(id);
-        userService.changePassword(foundedUser, passwordForm.getPassword());
+        userService.changePassword(foundedUser, password);
         userService.save(foundedUser);
         return "profile";
     }
 
     @GetMapping("/profile/{id}/editPersonalInformation")
     public String editPersonalInformation(@PathVariable long id, Model model) {
-        UserDetails foundedUser = userDetailsService.findById(id);
+        User byId = userService.findById(id);
+        UserDetails foundedUser = userDetailsService.findByUser(byId);
         model.addAttribute("foundedUser", foundedUser);
 
         return "editUserDetails";
     }
 
     @RequestMapping("/profile/{id}/editPersonalInformation")
-    public String addRecipe(@PathVariable int id, @ModelAttribute("userDetails") UserDetails userDetails, HttpServletRequest request) {
-        UserDetails foundedUser = userDetailsService.findById(id);
+    public String addPersonalInformation(@PathVariable int id, HttpServletRequest request) {
+        User byId = userService.findById(id);
+        UserDetails foundedUser = userDetailsService.findByUser(byId);
+
         String about = request.getParameter("about");
         String favouriteKitchen = request.getParameter("favouriteKitchen");
         String contact = request.getParameter("contact");
@@ -79,9 +85,8 @@ public class ProfileController {
         long userId = getUserId();
 
         userDetailsService.update(foundedUser, userId, about, favouriteKitchen, contact);
-        userDetailsService.save(foundedUser);
 
-        return "profile";
+        return "redirect:/profile/{id}";
     }
 
 
@@ -107,7 +112,8 @@ public class ProfileController {
     public String getAbout() {
         try {
             UserDetails byId = userDetailsService.findById(getUserId());
-            return byId.getAbout();
+            return byId.getAbout().isEmpty() ? "Brak" : byId.getAbout();
+
 
         } catch (NullPointerException ignored) {
         }
@@ -118,7 +124,7 @@ public class ProfileController {
     public String getContact() {
         try {
             UserDetails byId = userDetailsService.findById(getUserId());
-            return byId.getContact();
+            return byId.getContact().isEmpty() ? "Brak" : byId.getContact();
 
         } catch (NullPointerException ignored) {
         }
@@ -129,7 +135,7 @@ public class ProfileController {
     public String getFavoriteKitchen() {
         try {
             UserDetails byId = userDetailsService.findById(getUserId());
-            return byId.getFavouriteKitchen();
+            return byId.getFavouriteKitchen().isEmpty() ? "Brak" : byId.getFavouriteKitchen();
 
         } catch (NullPointerException ignored) {
         }

@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.coderslab.ycook.entity.User;
-import pl.coderslab.ycook.entity.UserDetails;
 import pl.coderslab.ycook.repository.RoleRepository;
 import pl.coderslab.ycook.repository.UserDetailsRepository;
 import pl.coderslab.ycook.repository.UserRepository;
@@ -35,11 +34,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void save(User user) {
+    public User save(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(1);
         user.setRoles(new HashSet<>(roleRepository.findAll()));
         userRepository.save(user);
+        return user;
     }
 
 //    @Override

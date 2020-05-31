@@ -6,9 +6,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.ycook.entity.User;
+import pl.coderslab.ycook.entity.UserDetails;
 import pl.coderslab.ycook.service.SecurityService;
+import pl.coderslab.ycook.service.UserDetailsService;
 import pl.coderslab.ycook.service.UserService;
 import pl.coderslab.ycook.validator.UserValidator;
+
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -16,6 +19,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @Autowired
     private SecurityService securityService;
@@ -38,7 +44,13 @@ public class UserController {
             return "registration";
         }
 
-        userService.save(userForm);
+        User save = userService.save(userForm);
+
+        UserDetails userDetails = new UserDetails();
+        userDetails.setUser(save);
+
+        userDetailsService.save(userDetails);
+
         securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
 
         return "redirect:/mainPage";
