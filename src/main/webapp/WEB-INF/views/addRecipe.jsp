@@ -35,6 +35,11 @@
 <body>
 <div class="container">
 
+    <form method="POST" enctype="multipart/form-data" action="${contextPath}/upload-file">
+        <input type="file" name="file"> <br/><br/>
+        <button type="submit">Submit</button>
+    </form>
+
     <form:form method="POST" modelAttribute="recipe" class="form-signin">
         <h2 class="form-signin-heading">Dodaj przepis</h2>
         <br>

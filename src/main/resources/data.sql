@@ -65,10 +65,9 @@ VALUES
 (62, "Delikatesy"),
 (63, "Północna Tajlandia"),
 (64, "Północnoindyjska"),
-(65, "Północno-wschodnia Tajlandia"),
-(66, "Rosyjska"),
-(67, "Zachodnioindyjska"),
-(68, "Indonezyjska");
+(65, "Rosyjska"),
+(66, "Zachodnioindyjska"),
+(67, "Indonezyjska");
 INSERT INTO cuisine_type(id, name)
 VALUES
 (1, "Mieszana"),

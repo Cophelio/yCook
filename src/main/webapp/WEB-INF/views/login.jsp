@@ -23,40 +23,67 @@
 
     <title>Zaloguj się na swoje konto.</title>
 
-    <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
-
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <![endif]-->
+
+    <!--Bootsrap 4 CDN-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <!--Fontawesome CDN-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+    <!--Custom styles-->
+    <link rel="stylesheet" type="text/css" href="../../../resources/css/login.css">
 </head>
 
 <body>
 
 <div class="container">
+    <div class="d-flex justify-content-center h-100">
+        <div class="card">
+            <div class="card-header">
+                <h3>Zaloguj się</h3>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="${contextPath}/login">
 
-    <form method="POST" action="${contextPath}/login" class="form-signin">
-        <h2 class="form-heading">Zaloguj się</h2>
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text ${error != null ? 'has-error' : ''}"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input name="username" type="text" class="form-control" placeholder="Nazwa użytkownika">
+                        <div style="padding-top: 1%; color: white">${message}</div>
+                    </div>
 
-        <div class="form-group ${error != null ? 'has-error' : ''}">
-            <span>${message}</span>
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                        </div>
+                        <input name="password" type="password" class="form-control" placeholder="Hasło">
+                        <div style="padding-top: 1%; color: orangered">${error}</div>
+                    </div>
 
-            <input name="username" type="text" class="form-control" placeholder="Nazwa użytkownika"
-                   autofocus="true"/>
-
-            <input name="password" type="password" class="form-control" placeholder="Hasło"/>
-
-            <span>${error}</span>
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Zaloguj się</button>
-            <h4 class="text-center"><a href="${contextPath}/registration">Stwórz konto</a></h4>
+                    <div class="form-group" style="padding-top: 5%">
+                        <input type="submit" value="Zaloguj" class="btn float-right login_btn">
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <div class="d-flex justify-content-center links">
+                    Nie masz konta?<a href="${contextPath}/registration" style="color: #FFC312">Zarejestruj się</a>
+                </div>
+            </div>
         </div>
-
-    </form>
-
+    </div>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

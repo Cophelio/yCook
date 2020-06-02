@@ -7,14 +7,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import pl.coderslab.ycook.commons.FileResponse;
 import pl.coderslab.ycook.entity.Cuisine;
 import pl.coderslab.ycook.entity.CuisineType;
 import pl.coderslab.ycook.entity.Recipe;
 import pl.coderslab.ycook.entity.User;
-import pl.coderslab.ycook.service.CuisineService;
-import pl.coderslab.ycook.service.CuisineTypeService;
-import pl.coderslab.ycook.service.RecipeService;
-import pl.coderslab.ycook.service.UserService;
+import pl.coderslab.ycook.service.*;
 import pl.coderslab.ycook.validator.RecipeValidator;
 import pl.coderslab.ycook.viewModel.RecipeViewModel;
 
@@ -42,18 +42,22 @@ public class MainPageController {
     @Autowired
     private final UserService userService;
 
+    private StorageService storageService;
+
     public MainPageController(
             CuisineService cuisineService,
             CuisineTypeService cuisineTypeService,
             RecipeService recipeService,
             RecipeValidator recipeValidator,
-            UserService userService
+            UserService userService,
+            StorageService storageService
     ) {
         this.cuisineService = cuisineService;
         this.cuisineTypeService = cuisineTypeService;
         this.recipeService = recipeService;
         this.recipeValidator = recipeValidator;
         this.userService = userService;
+        this.storageService = storageService;
     }
 
     @GetMapping({"/", "/mainPage"})
@@ -268,6 +272,15 @@ public class MainPageController {
                     (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
             User user = userService.findByUsername(principal.getUsername());
             return user.getId();
+        } catch (NullPointerException ignored) {
+        }
+        return 0;
+    }
+
+    @ModelAttribute("getActualUserId")
+    public long getActualUserId() {
+        try {
+            return getUserId();
         } catch (NullPointerException ignored) {
         }
         return 0;
