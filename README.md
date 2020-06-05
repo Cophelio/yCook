@@ -1,5 +1,6 @@
 # yCook
 
-1. Po odpaleniu projektu użyć SQL w konsoli:
+1. GIT CLONE, RUN AND HAVE FUN, projekt odpalany na localhoście (localhost:8080)
 
-    ``INSERT INTO `role` (`id`, `name`) VALUES (1, 'ROLE_USER');``
+
+
