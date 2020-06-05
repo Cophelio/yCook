@@ -63,7 +63,7 @@
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="${contextPath}/mainPage" style="font-weight: bold">Strona Główna</a>
+                    <li class="active"><a href="${contextPath}/mainPage">Strona Główna</a>
                     </li>
                     <li><a href="${contextPath}/mainPage/recipe/add">Dodaj nowy przepis</a></li>
                     <li><a href="${contextPath}/mainPage/favorite">Lista ulubionych przepisów</a></li>
@@ -172,9 +172,7 @@
             <div class="container">
                 <div class="col-lg-12">
                     <div class="row">
-                        <c:if test="${empty allRecipes}"><h1 class="bigpixi_head"
-                                                             style="text-align: center; margin-top: 5%">NIE DODANO
-                            JESZCZE ŻADNEGO PRZEPISU</h1></c:if>
+                        <c:if test="${empty allRecipes}"><h3 style="text-align: center">Nie ma tu jeszcze nic</h3></c:if>
                         <c:forEach items="${allRecipes}" var="recipe">
                             <div class="col-lg-4">
                                 <div class="container-fluid">
@@ -186,7 +184,8 @@
                                         </li>
                                         <li class="media-list">
                                             <div>
-                                                <img src="https://via.placeholder.com/320x250"/>
+                                                <img class="advert-img"
+                                                     src="${contextPath}/resources/uploads/placeholder-image.jpg"/>
                                             </div>
                                         </li>
                                         <li class="list-group-item">
@@ -195,18 +194,86 @@
                                                     <button type="button" class="btn btn-primary btn-block btn-color"
                                                             data-toggle="modal"
                                                             data-target="#exampleFavModal${recipe.id}">Dodaj przepis do
-                                                        ulubionych!
+                                                        ulubionych
                                                     </button>
+                                                    <div class="modal fade" id="exampleFavModal${recipe.id}"
+                                                         tabindex="-1" role="dialog"
+                                                         aria-labelledby="exampleFavFalse" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="close"
+                                                                            data-dismiss="modal"
+                                                                            aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                    <h5 class="modal-title" id="exampleFavFalse"
+                                                                        style="font-weight: bolder">Dodawanie do
+                                                                        ulubionych</h5>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    Czy na pewno chcesz dodać przepis o
+                                                                    nazwie: ${recipe.name} do
+                                                                    ulubionych ?
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <a href="${contextPath}/mainPage"
+                                                                       class="btn btn-secondary"
+                                                                       type="submit">Anuluj</a>
+                                                                    <a href="${contextPath}/mainPage/recipe/add/favorite/${recipe.id}"
+                                                                       class="btn btn-secondary btn-color"
+                                                                       type="submit">Dodaj
+                                                                        do
+                                                                        ulubionych</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <button type="button"
                                                             class="btn btn-primary btn-block btn-color-return"
                                                             data-toggle="modal"
-                                                            data-target="#exampleFavModal${recipe.id}">Lubisz ten przepis!
+                                                            data-target="#exampleFavModal${recipe.id}">Lubisz ten
+                                                        przepis
                                                     </button>
+                                                    <div class="modal fade" id="exampleFavModal${recipe.id}"
+                                                         tabindex="-1" role="dialog"
+                                                         aria-labelledby="exampleFavTrue" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="close"
+                                                                            data-dismiss="modal"
+                                                                            aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                    <h5 class="modal-title" id="exampleFavTrue"
+                                                                        style="font-weight: bolder">Usuwanie z
+                                                                        ulubionych</h5>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    Czy na pewno chcesz usunać przepis o
+                                                                    nazwie: ${recipe.name} z
+                                                                    ulubionych ?
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <a href="${contextPath}/mainPage"
+                                                                       class="btn btn-secondary"
+                                                                       type="submit">Anuluj</a>
+                                                                    <a href="${contextPath}/mainPage/recipe/delete/favorite/${recipe.id}"
+                                                                       class="btn btn-secondary btn-color"
+                                                                       type="submit">Usuń z
+                                                                        ulubionych</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </c:otherwise>
                                             </c:choose>
                                         </li>
+
+
                                         <li class="list-group-item"><p style="font-weight: bolder">Poziom
                                             trudności:</p>
                                             <c:forEach var="i" begin="1" end="${recipe.level}">&#9733; </c:forEach></li>
@@ -247,7 +314,7 @@
                                     <div class="card-body" style="margin-top: -2.5%">
                                         <button type="button" class="btn btn-primary btn-color"
                                                 style="width: 30%; color: white" data-toggle="modal"
-                                                data-target="#exampleModal">
+                                                data-target="#exampleModal${recipe.id}">
                                             Usuń
                                         </button>
 
@@ -258,6 +325,30 @@
                                         <a href="${contextPath}/mainPage/recipe/${recipe.id}"
                                            class="btn btn-primary pull-right btn-color"
                                            style="width: 30%; color: white">Zobacz</a>
+                                    </div>
+                                    <div class="modal fade" id="exampleModal${recipe.id}" tabindex="-1" role="dialog"
+                                         aria-labelledby="exampleModalFirst" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                    <h5 class="modal-title" id="exampleModalFirst"
+                                                        style="font-weight: bolder">Usuwanie</h5>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Czy na pewno chcesz usunąć przepis o nazwie: ${recipe.name} ?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <a href="${contextPath}/mainPage" class="btn btn-secondary"
+                                                       type="submit">Anuluj</a>
+                                                    <a href="${contextPath}/mainPage/recipe/delete/${recipe.id}"
+                                                       class="btn btn-secondary btn-color" type="submit">Usuń</a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <br>
                                 </div>
@@ -286,182 +377,6 @@
             </div>
         </div>
     </section>
-
-    <%--    <br>--%>
-    <%--    <div class="container">--%>
-    <%--        <div class="row">--%>
-    <%--            <c:if test="${empty allRecipes}"><h1 style="text-align: center; padding-top: 15%">NIC TU KURWA NIE--%>
-    <%--                MA</h1></c:if>--%>
-    <%--            <c:forEach items="${allRecipes}" var="recipe">--%>
-    <%--                <div class="col-sm-6">--%>
-    <%--                    <div class="card">--%>
-    <%--                        <h4 class="card-title" style="font-weight: bolder">${recipe.name}</h4>--%>
-    <%--                        <c:choose>--%>
-    <%--                            <c:when test="${recipe.favorite == false}">--%>
-    <%--                                <button type="button" style="color: goldenrod"--%>
-    <%--                                        class="glyphicon glyphicon-star-empty"--%>
-    <%--                                        data-toggle="modal"--%>
-    <%--                                        data-target="#exampleFavModal${recipe.id}">--%>
-    <%--                                </button>--%>
-
-    <%--                                <div class="modal fade" id="exampleFavModal${recipe.id}" tabindex="-1" role="dialog"--%>
-    <%--                                     aria-labelledby="exampleFavFalse" aria-hidden="true">--%>
-    <%--                                    <div class="modal-dialog" role="document">--%>
-    <%--                                        <div class="modal-content">--%>
-    <%--                                            <div class="modal-header">--%>
-    <%--                                                <button type="button" class="close" data-dismiss="modal"--%>
-    <%--                                                        aria-label="Close">--%>
-    <%--                                                    <span aria-hidden="true">&times;</span>--%>
-    <%--                                                </button>--%>
-    <%--                                                <h5 class="modal-title" id="exampleFavFalse"--%>
-    <%--                                                    style="font-weight: bolder">Usuwanie</h5>--%>
-    <%--                                            </div>--%>
-    <%--                                            <div class="modal-body">--%>
-    <%--                                                Czy na pewno chcesz dodać przepis o nazwie: ${recipe.name} do--%>
-    <%--                                                ulubionych ?--%>
-    <%--                                            </div>--%>
-    <%--                                            <div class="modal-footer">--%>
-    <%--                                                <a href="${contextPath}/mainPage" class="btn btn-secondary"--%>
-    <%--                                                   type="submit">Anuluj</a>--%>
-    <%--                                                <a href="${contextPath}/mainPage/recipe/add/favorite/${recipe.id}"--%>
-    <%--                                                   class="btn btn-secondary alert-success" type="submit">Dodaj--%>
-    <%--                                                    do--%>
-    <%--                                                    ulubionych</a>--%>
-    <%--                                            </div>--%>
-    <%--                                        </div>--%>
-    <%--                                    </div>--%>
-    <%--                                </div>--%>
-    <%--                            </c:when>--%>
-    <%--                            <c:otherwise>--%>
-    <%--                                <button type="button" style="color: goldenrod" class="glyphicon glyphicon-star"--%>
-    <%--                                        data-toggle="modal"--%>
-    <%--                                        data-target="#exampleFavModal${recipe.id}">--%>
-    <%--                                </button>--%>
-
-    <%--                                <div class="modal fade" id="exampleFavModal${recipe.id}" tabindex="-1" role="dialog"--%>
-    <%--                                     aria-labelledby="exampleFavTrue" aria-hidden="true">--%>
-    <%--                                    <div class="modal-dialog" role="document">--%>
-    <%--                                        <div class="modal-content">--%>
-    <%--                                            <div class="modal-header">--%>
-    <%--                                                <button type="button" class="close" data-dismiss="modal"--%>
-    <%--                                                        aria-label="Close">--%>
-    <%--                                                    <span aria-hidden="true">&times;</span>--%>
-    <%--                                                </button>--%>
-    <%--                                                <h5 class="modal-title" id="exampleFavTrue"--%>
-    <%--                                                    style="font-weight: bolder">Usuwanie</h5>--%>
-    <%--                                            </div>--%>
-    <%--                                            <div class="modal-body">--%>
-    <%--                                                Czy na pewno chcesz usunać przepis o nazwie: ${recipe.name} z--%>
-    <%--                                                ulubionych ?--%>
-    <%--                                            </div>--%>
-    <%--                                            <div class="modal-footer">--%>
-    <%--                                                <a href="${contextPath}/mainPage" class="btn btn-secondary"--%>
-    <%--                                                   type="submit">Anuluj</a>--%>
-    <%--                                                <a href="${contextPath}/mainPage/recipe/delete/favorite/${recipe.id}"--%>
-    <%--                                                   class="btn btn-secondary alert-danger" type="submit">Usuń z--%>
-    <%--                                                    ulubionych</a>--%>
-    <%--                                            </div>--%>
-    <%--                                        </div>--%>
-    <%--                                    </div>--%>
-    <%--                                </div>--%>
-    <%--                            </c:otherwise>--%>
-    <%--                        </c:choose>--%>
-
-    <%--                        <c:choose>--%>
-    <%--                            <c:when test="${recipe.recommend == true}">--%>
-    <%--                                <p class="card-text" style="font-weight: bolder">Polecane przez--%>
-    <%--                                    kucharza!</p>--%>
-    <%--                            </c:when>--%>
-    <%--                            <c:otherwise>--%>
-    <%--                                <p>--%>
-    <%--                                    <br>--%>
-    <%--                                </p>--%>
-    <%--                            </c:otherwise>--%>
-    <%--                        </c:choose>--%>
-    <%--                        <ul class="list-group list-group-flush" style="width: 35rem;">--%>
-    <%--                            <li class="list-group-item"><p style="font-weight: bolder">Poziom--%>
-    <%--                                trudności:</p>--%>
-    <%--                                <c:forEach var="i" begin="1" end="${recipe.level}">&#9733; </c:forEach></li>--%>
-    <%--                            <c:choose>--%>
-    <%--                                <c:when test="${recipe.kcal != 0}">--%>
-    <%--                                    <li class="list-group-item"><p style="font-weight: bolder">--%>
-    <%--                                        Kaloryczność:</p>${recipe.kcal} kcal--%>
-    <%--                                    </li>--%>
-    <%--                                </c:when>--%>
-    <%--                                <c:otherwise>--%>
-    <%--                                    <li class="list-group-item" style="font-weight: bold"><p--%>
-    <%--                                            style="font-weight: bolder">Kaloryczność:</p>--%>
-    <%--                                        <div style="font-style: italic">Nie określono kaloryczności--%>
-    <%--                                            przepisu--%>
-    <%--                                        </div>--%>
-    <%--                                    </li>--%>
-    <%--                                </c:otherwise>--%>
-    <%--                            </c:choose>--%>
-    <%--                            <c:choose>--%>
-    <%--                                <c:when test="${not empty recipe.time}">--%>
-    <%--                                    <li class="list-group-item"><p style="font-weight: bolder">Czas--%>
-    <%--                                        przygotowania:</p>${recipe.time}</li>--%>
-    <%--                                </c:when>--%>
-    <%--                                <c:otherwise>--%>
-    <%--                                    <li class="list-group-item" style="font-weight: bold"><p--%>
-    <%--                                            style="font-weight: bolder">Czas--%>
-    <%--                                        przygotowania:</p>--%>
-    <%--                                        <div style="font-style: italic">Nie określono czasu przygotowania--%>
-    <%--                                        </div>--%>
-    <%--                                    </li>--%>
-    <%--                                </c:otherwise>--%>
-    <%--                            </c:choose>--%>
-    <%--                            <li class="list-group-item"><p style="font-weight: bolder">Rodzaj--%>
-    <%--                                kuchni:</p> ${recipe.cuisine}</li>--%>
-    <%--                            <li class="list-group-item"><p style="font-weight: bolder">Typ--%>
-    <%--                                kuchni:</p>${recipe.type}</li>--%>
-    <%--                        </ul>--%>
-    <%--                        <div class="card-body">--%>
-    <%--                            <button type="button" class="btn btn-primary alert-danger" data-toggle="modal"--%>
-    <%--                                    data-target="#exampleModal">--%>
-    <%--                                Usuń przepis--%>
-    <%--                            </button>--%>
-
-    <%--                            <a href="${contextPath}/mainPage/recipe/edit/${recipe.id}"--%>
-    <%--                               class="btn btn-primary">Edytuj--%>
-    <%--                                przepis</a>--%>
-
-    <%--                            <a href="${contextPath}/mainPage/recipe/${recipe.id}"--%>
-    <%--                               class="btn btn-primary alert-success ">Zobacz--%>
-    <%--                                przepis</a>--%>
-    <%--                        </div>--%>
-    <%--                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"--%>
-    <%--                             aria-labelledby="exampleModalFirst" aria-hidden="true">--%>
-    <%--                            <div class="modal-dialog" role="document">--%>
-    <%--                                <div class="modal-content">--%>
-    <%--                                    <div class="modal-header">--%>
-    <%--                                        <button type="button" class="close" data-dismiss="modal"--%>
-    <%--                                                aria-label="Close">--%>
-    <%--                                            <span aria-hidden="true">&times;</span>--%>
-    <%--                                        </button>--%>
-    <%--                                        <h5 class="modal-title" id="exampleModalFirst"--%>
-    <%--                                            style="font-weight: bolder">Usuwanie</h5>--%>
-    <%--                                    </div>--%>
-    <%--                                    <div class="modal-body">--%>
-    <%--                                        Czy na pewno chcesz usunąć przepis o nazwie: ${recipe.name} ?--%>
-    <%--                                    </div>--%>
-    <%--                                    <div class="modal-footer">--%>
-    <%--                                        <a href="${contextPath}/mainPage" class="btn btn-secondary"--%>
-    <%--                                           type="submit">Anuluj</a>--%>
-    <%--                                        <a href="${contextPath}/mainPage/recipe/delete/${recipe.id}"--%>
-    <%--                                           class="btn btn-secondary alert-danger" type="submit">Usuń</a>--%>
-    <%--                                    </div>--%>
-    <%--                                </div>--%>
-    <%--                            </div>--%>
-    <%--                        </div>--%>
-    <%--                        <br>--%>
-    <%--                    </div>--%>
-    <%--                </div>--%>
-    <%--            </c:forEach>--%>
-    <%--        </div>--%>
-    <%--    </div>--%>
-
-
 </sec:authorize>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

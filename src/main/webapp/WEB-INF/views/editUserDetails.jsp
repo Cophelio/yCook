@@ -20,27 +20,65 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Utwórz konto.</title>
+    <title>Edytuj dane personalne</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
+
+    <!--Custom styles-->
+    <link rel="stylesheet" type="text/css" href="../../../resources/css/profile.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <![endif]-->
+
+    <!--Fontawesome CDN-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 </head>
 <body>
 <sec:authorize access="isAuthenticated()">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container-fluid" style="margin-left: 5%; margin-right:5%">
+            <div class="navbar-header">
+                <c:if test="${pageContext.request.userPrincipal.name != null}">
+                <form id="logoutForm" method="POST" action="${contextPath}/logout">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                </form>
+
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand"
+                   href="${contextPath}/profile/${userId}">${pageContext.request.userPrincipal.name}</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="${contextPath}/mainPage">Strona Główna</a></li>
+                    <li><a href="${contextPath}/mainPage/recipe/add">Dodaj nowy przepis</a></li>
+                    <li><a href="${contextPath}/mainPage/favorite">Lista ulubionych przepisów</a></li>
+                    <li class="active"><a href="${contextPath}/profile/${userId}">Profil kucharza</a></li>
+                    <li><a onclick="document.forms['logoutForm'].submit()">WYLOGUJ SIĘ</a></li>
+                </ul>
+            </div>
+            </c:if>
+        </div>
+    </nav>
+
+    <br>
+    <div id="services" class="container-fluid text-center" style="margin-top: 2.5%">
+        <h2 class="bigpixi_head"><span>Edytuj dane</span></h2>
+    </div>
+
+    <div style="padding-bottom: 1.5%"></div>
+
     <div class="container">
         <table class="table table-striped">
             <tbody>
@@ -81,8 +119,9 @@
                         </fieldset>
 
                         <div class="form-group-sm extra-margin-top" style="margin-left: 40%">
-                            <a href="${contextPath}/profile/${getActualUserId}" class="btn btn-info">Anuluj</a>
-                            <button class="btn btn-info" type="submit">Edytuj informacje</button>
+                            <a href="${contextPath}/profile/${getActualUserId}"
+                               class="btn btn-info btn-color">Anuluj</a>
+                            <button class="btn btn-info btn-color" type="submit">Edytuj informacje</button>
                         </div>
                     </form:form>
                 </td>
@@ -90,6 +129,23 @@
             </tbody>
         </table>
     </div>
+
+    <section class="footer tbpadding">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="link-area">
+                        <h3 style="color: white">O MNIE</h3>
+                        <P style="color: white">Nazywam się <a
+                                href="https://www.linkedin.com/in/przemyslaw-szczerkowski-66638a141"
+                                style="color: #FFC312">Przemysław Szczerkowski</a>. Projekt Stworzony został w
+                            ramach
+                            kursu Coderslab.</P>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </sec:authorize>
 </body>
 </html>

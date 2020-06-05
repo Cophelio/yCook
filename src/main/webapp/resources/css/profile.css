@@ -1,0 +1,345 @@
+@import url('https://fonts.googleapis.com/css?family=Numans');
+
+@media (min-width: 1024px) {
+    .container {
+        width: 80%;
+    }
+}
+
+@media (min-width: 1024px) {
+    .advert-img {
+        width: 100%;
+    }
+}
+
+@media (max-width: 1024px ) {
+    .advert-img {
+        width: 100%;
+    }
+}
+
+body {
+    font-family: 'Numans', sans-serif;
+    background: #ece9e6;
+    background: -webkit-linear-gradient(to right, #ece9e6, #ffffff);
+    background: linear-gradient(to right, #ece9e6, #ffffff);
+}
+
+.no-click {
+    pointer-events: none;
+}
+
+.btn-color {
+    background-color: #303030;
+    border-color: #303030;
+    color: white;
+}
+
+.btn-color:hover {
+    background-color: #FFC312;
+    border-color: #FFC312;
+    color: black;
+}
+
+.btn-color-return {
+    background-color: #FFC312;
+    border-color: #FFC312;
+    color: black;
+}
+
+.btn-color-return:hover {
+    background-color: #303030;
+    border-color: #303030;
+    color: white;
+}
+
+.navbar-default {
+    background-color: #303030;
+    border-color: #212121;
+}
+
+.navbar-default .navbar-brand {
+    color: #ffffff;
+}
+
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+    color: #FFC312;
+}
+
+.navbar-default .navbar-text {
+    color: #ffffff;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: #ffffff;
+}
+
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+    color: #FFC312;
+}
+
+.navbar-default .navbar-nav > li > .dropdown-menu {
+    background-color: #FFC312;
+}
+
+.navbar-default .navbar-nav > li > .dropdown-menu > li > a {
+    color: #ffffff;
+}
+
+.navbar-default .navbar-nav > li > .dropdown-menu > li > a:hover,
+.navbar-default .navbar-nav > li > .dropdown-menu > li > a:focus {
+    color: #050505;
+    background-color: grey;
+}
+
+.navbar-default .navbar-nav > li > .dropdown-menu > li.divider {
+    background-color: grey;
+}
+
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+    color: #050505;
+    background-color: #FFC312;
+    font-weight: bold;
+}
+
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+    color: black;
+    font-weight: bold;
+    background-color: #FFC312;
+}
+
+.navbar-default .navbar-toggle {
+    border-color: grey;
+}
+
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+    background-color: grey;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: #ffffff;
+}
+
+.navbar-default .navbar-collapse,
+.navbar-default .navbar-form {
+    border-color: #ffffff;
+}
+
+.navbar-default .navbar-link {
+    color: #ffffff;
+}
+
+.navbar-default .navbar-link:hover {
+    color: #050505;
+}
+
+@media (max-width: 767px) {
+    .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+        color: #ffffff;
+    }
+
+    .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
+    .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+        color: #050505;
+    }
+
+    .navbar-default .navbar-nav .open .dropdown-menu > .active > a,
+    .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
+    .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+        color: #050505;
+        background-color: dimgrey;
+    }
+}
+
+
+/* Carousel Styles */
+
+.carousel-control {
+    color: brown;
+}
+
+.carousel-indicators .active {
+    background-color: #ff5900;
+
+}
+
+.carousel-inner img {
+    width: 100%;
+    max-height: 420px;
+}
+
+.carousel-control {
+    width: 0;
+}
+
+.carousel-control.left,
+.carousel-control.right {
+    opacity: 1;
+    filter: alpha(opacity=100);
+    background-image: none;
+    background-repeat: no-repeat;
+    text-shadow: none;
+    margin-right: 25px;
+}
+
+.carousel-control.left span {
+    margin-left: 15px;
+    font-size: 60px;
+
+
+}
+
+.carousel-control.right span {
+    font-size: 60px;
+    margin-right: 50px;
+}
+
+.carousel-control .glyphicon-chevron-left,
+.carousel-control .glyphicon-chevron-right,
+.carousel-control .icon-prev,
+.carousel-control .icon-next {
+    position: absolute;
+    top: 45%;
+    z-index: 5;
+    display: inline-block;
+
+}
+
+.carousel-control .glyphicon-chevron-left,
+.carousel-control .icon-prev {
+    left: 0;
+}
+
+.carousel-control .glyphicon-chevron-right,
+.carousel-control .icon-next {
+    right: 0;
+
+}
+
+.carousel-control.left span,
+.carousel-control.right span {
+    background-color: none;
+
+}
+
+.carousel-control.left span:hover,
+.carousel-control.right span:hover {
+    opacity: .7;
+    filter: alpha(opacity=70);
+}
+
+/* Carousel Header Styles */
+.header-text {
+    position: absolute;
+    top: 35%;
+    left: 1.8%;
+    right: auto;
+    width: 96.66666666666666%;
+    color: #000;
+}
+
+.header-text h2 {
+    font-size: 30px;
+}
+
+.header-text h2 span {
+
+    padding: 10px;
+}
+
+.header-text h3 span {
+
+    padding: 15px;
+}
+
+.btn-min-block {
+    min-width: 170px;
+    line-height: 26px;
+}
+
+.btn-theme {
+    color: #fff;
+    background-color: transparent;
+    border: 2px solid #fff;
+    margin-right: 15px;
+}
+
+.btn-theme:hover {
+    color: #000;
+    background-color: #fff;
+    border-color: #fff;
+}
+
+/*below banner text  */
+.banner-bottom {
+    padding: 3em 0 3em;
+}
+
+.bigpixi_head {
+    font-size: 35px;
+}
+
+.bigpixi_head span {
+    color: #212121;
+}
+
+.bigpixi_head {
+    font-size: 36px;
+    color: #c84403;
+    font-weight: 600;
+    margin-bottom: 30px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    text-align: center;
+    padding-bottom: .8em;
+    position: relative;
+}
+
+.bigpixi_head:before {
+    width: 11%;
+    bottom: 8%;
+    left: 44.5%;
+}
+
+.bigpixi_head:after {
+    width: 18%;
+    right: 41%;
+    bottom: 0%;
+}
+
+.bigpixi_head:before {
+    position: absolute;
+    background: #c84403;
+    height: 2px;
+    content: '';
+}
+
+p.bigpixipara {
+    font-size: 14px;
+    color: #777;
+    width: 100%;
+    margin: 0 auto;
+    line-height: 25px;
+    text-align: center;
+}
+
+.tbpadding {
+    padding: 40px 40px;
+}
+
+.footer {
+    background-color: #303030;
+    border-color: #212121;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    position:fixed;
+    bottom:0;
+    width:100%;
+}

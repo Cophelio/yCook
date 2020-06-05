@@ -12,6 +12,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -24,144 +25,178 @@
     <title>Lista ulubionych</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
+
+    <!--Custom styles-->
+    <link rel="stylesheet" type="text/css" href="../../../resources/css/mainPage.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <![endif]-->
+
+    <!--Fontawesome CDN-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 </head>
 <body>
 <sec:authorize access="isAuthenticated()">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-6">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container-fluid" style="margin-left: 5%; margin-right:5%">
+            <div class="navbar-header">
                 <c:if test="${pageContext.request.userPrincipal.name != null}">
                 <form id="logoutForm" method="POST" action="${contextPath}/logout">
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 </form>
-                <h2>Witaj ${pageContext.request.userPrincipal.name}</h2>
+
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand"
+                   href="${contextPath}/profile/${userId}">${pageContext.request.userPrincipal.name}</a>
             </div>
-            <br>
-            <div class="col-sm-3">
-                <button type="button" class="btn btn-primary"><a href="${contextPath}/mainPage" style="color: white">
-                    Powrót
-                </a></button>
-                <div class="dropdown pull-right">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                        Profil kucharza
-                    </button>
-                    <div class="dropdown-menu">
-                        <div class="dropdown-divider">
-                            <a class="dropdown-item" href="${contextPath}/profile/${getActualUserId}">
-                                <div class="text-right"
-                                     style="padding-right: 15%; padding-bottom: 2%; font-weight: bolder">Profil
-                                </div>
-                            </a>
-                        </div>
-                        <div class="dropdown-divider">
-                            <a class="dropdown-item" href="${contextPath}/mainPage/favorite">
-                                <div class="text-right"
-                                     style="padding-right: 15%; padding-bottom: 2%; font-weight: bolder">Ulubione
-                                </div>
-                            </a>
-                        </div>
-                        <div class="dropdown-divider">
-                            <a class="dropdown-item" onclick="document.forms['logoutForm'].submit()">
-                                <div class="text-right"
-                                     style="padding-right: 15%; padding-bottom: 2%; font-weight: bolder">Wyloguj się
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="${contextPath}/mainPage">Strona Główna</a>
+                    </li>
+                    <li><a href="${contextPath}/mainPage/recipe/add">Dodaj nowy przepis</a></li>
+                    <li class="active"><a href="${contextPath}/mainPage/favorite">Lista ulubionych przepisów</a></li>
+                    <li><a href="${contextPath}/profile/${userId}">Profil kucharza</a></li>
+                    <li><a onclick="document.forms['logoutForm'].submit()">WYLOGUJ SIĘ</a></li>
+                </ul>
             </div>
             </c:if>
         </div>
-    </div>
+    </nav>
 
-    <div class="container">
-        <h3 style="padding-top: 50px; font-weight: bolder">Lista przepisów</h3>
-    </div>
-
-    <br>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <c:if test="${empty allFavRecipes}"><h1 style="text-align: center; padding-top: 15%">NIC TU KURWA NIE
-                MA</h1></c:if>
-            <c:forEach items="${allFavRecipes}" var="recipe">
-                <div class="col-sm-6">
-                    <div class="card">
-                        <h4 class="card-title" style="font-weight: bolder">${recipe.name}</h4>
-                        <span style="color: goldenrod" class="glyphicon glyphicon-star">
-                        </span>
-                        <img class="card-img-top" src="" alt="Grafika">
-                        <c:choose>
-                            <c:when test="${recipe.recommend == true}">
-                                <p class="card-text" style="font-weight: bolder">Polecane przez
-                                    kucharza!</p>
-                            </c:when>
-                            <c:otherwise>
-                                <p>
-                                    <br>
-                                </p>
-                            </c:otherwise>
-                        </c:choose>
-                        <ul class="list-group list-group-flush" style="width: 35rem;">
-                            <li class="list-group-item"><p style="font-weight: bolder">Poziom
-                                trudności:</p>
-                                <c:forEach var="i" begin="1" end="${recipe.level}">&#9733; </c:forEach></li>
-                            <c:choose>
-                                <c:when test="${recipe.kcal != 0}">
-                                    <li class="list-group-item"><p style="font-weight: bolder">
-                                        Kaloryczność:</p>${recipe.kcal} kcal
-                                    </li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li class="list-group-item" style="font-weight: bold"><p
-                                            style="font-weight: bolder">Kaloryczność:</p>
-                                        <div style="font-style: italic">Nie określono kaloryczności
-                                            przepisu
-                                        </div>
-                                    </li>
-                                </c:otherwise>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${not empty recipe.time}">
-                                    <li class="list-group-item"><p style="font-weight: bolder">Czas
-                                        przygotowania:</p>${recipe.time}</li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li class="list-group-item" style="font-weight: bold"><p
-                                            style="font-weight: bolder">Czas
-                                        przygotowania:</p>
-                                        <div style="font-style: italic">Nie określono czasu przygotowania
-                                        </div>
-                                    </li>
-                                </c:otherwise>
-                            </c:choose>
-                            <li class="list-group-item"><p style="font-weight: bolder">Rodzaj
-                                kuchni:</p> ${recipe.cuisine}</li>
-                            <li class="list-group-item"><p style="font-weight: bolder">Typ
-                                kuchni:</p>${recipe.type}</li>
-                        </ul>
-                        <div class="card-body">
-                            <a href="${contextPath}/mainPage/recipe/${recipe.id}"
-                               class="btn btn-primary alert-success ">Zobacz
-                                przepis</a>
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="false">
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img src="${contextPath}/resources/uploads/rsz_112959485.jpg" alt="background">
+                        <div class="header-text hidden-xs">
+                            <div class="col-md-12 text-right" style="padding-right: 10%">
+                                <h2>
+                                    <span style="color: white"><strong>LISTA ULUBIONYCH PRZEPISÓW</strong></span>
+                                </h2>
+                                <br>
+                                <h3>
+                                    <span style="color: white">Znajdują się tutaj wszystkie ulubione przepisy.</span>
+                                </h3>
+                            </div>
                         </div>
-                        <br>
                     </div>
                 </div>
-            </c:forEach>
+            </div>
         </div>
     </div>
+
+    <div id="services" class="container-fluid text-center" style="margin-top: 2.5%">
+        <h2 class="bigpixi_head"><span>Lista ulubionych przepisów</span></h2>
+    </div>
+
+    <div class="container">
+        <div class="banner-bottom">
+            <div class="container">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <c:forEach items="${allFavRecipes}" var="recipe">
+                            <div class="col-lg-4">
+                                <div class="container-fluid">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <div style="font-weight: bold">
+                                                    ${recipe.name}
+                                            </div>
+                                        </li>
+                                        <li class="media-list">
+                                            <div>
+                                                <img class="advert-img"
+                                                     src="${contextPath}/resources/uploads/placeholder-image.jpg"/>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <button type="button"
+                                                    class="btn btn-primary btn-block btn-color-return no-click">Ulubiony
+                                                przepis
+                                            </button>
+                                        </li>
+                                        <li class="list-group-item"><p style="font-weight: bolder">Poziom
+                                            trudności:</p>
+                                            <c:forEach var="i" begin="1" end="${recipe.level}">&#9733; </c:forEach></li>
+                                        <c:choose>
+                                            <c:when test="${recipe.kcal != 0}">
+                                                <li class="list-group-item"><p style="font-weight: bolder">
+                                                    Kaloryczność:</p>${recipe.kcal} kcal
+                                                </li>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <li class="list-group-item" style="font-weight: bold"><p
+                                                        style="font-weight: bolder">Kaloryczność:</p>
+                                                    <div style="font-style: italic">Nie określono kaloryczności
+                                                        przepisu
+                                                    </div>
+                                                </li>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <c:choose>
+                                            <c:when test="${not empty recipe.time}">
+                                                <li class="list-group-item"><p style="font-weight: bolder">Czas
+                                                    przygotowania:</p>${recipe.time}</li>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <li class="list-group-item" style="font-weight: bold"><p
+                                                        style="font-weight: bolder">Czas
+                                                    przygotowania:</p>
+                                                    <div style="font-style: italic">Nie określono czasu przygotowania
+                                                    </div>
+                                                </li>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <li class="list-group-item"><p style="font-weight: bolder">Rodzaj
+                                            kuchni:</p> ${recipe.cuisine}</li>
+                                        <li class="list-group-item"><p style="font-weight: bolder">Typ
+                                            kuchni:</p>${recipe.type}</li>
+                                    </ul>
+                                    <div class="card-body" style="margin-top: -2.5%">
+                                        <a href="${contextPath}/mainPage/recipe/${recipe.id}"
+                                           class="btn btn-primary btn-block btn-color"
+                                           style="color: white">Zobacz ulubiony przepis</a>
+                                    </div>
+                                    <br>
+                                </div>
+                                <br>
+                            </div>
+                        </c:forEach>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="footer tbpadding">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="link-area">
+                        <h3 style="color: white">O MNIE</h3>
+                        <P style="color: white">Nazywam się <a
+                                href="https://www.linkedin.com/in/przemyslaw-szczerkowski-66638a141"
+                                style="color: #FFC312">Przemysław Szczerkowski</a>. Projekt Stworzony został w
+                            ramach
+                            kursu Coderslab.</P>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </sec:authorize>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

@@ -64,6 +64,17 @@ public class MainPageController {
     public String mainPage(Model model, HttpServletRequest request) {
         List<RecipeViewModel> result = new ArrayList<>();
 
+        if (doFilter(model, request, result)) return "mainPage";
+
+        List<Recipe> recipes = recipeService.getAll();
+
+        returnViewModel(recipes, result);
+
+        model.addAttribute("allRecipes", result);
+        return "mainPage";
+    }
+
+    private boolean doFilter(Model model, HttpServletRequest request, List<RecipeViewModel> result) {
         String name = null;
         String cuisineValue = null;
         String cuisineTypeValue = null;
@@ -86,7 +97,7 @@ public class MainPageController {
             returnViewModel(filteredRecipes, result);
 
             model.addAttribute("allRecipes", result);
-            return "mainPage";
+            return true;
         }
 
         if (name != null && cuisineValue != null) {
@@ -96,7 +107,7 @@ public class MainPageController {
             returnViewModel(filteredRecipes, result);
 
             model.addAttribute("allRecipes", result);
-            return "mainPage";
+            return true;
         }
 
         if (name != null && cuisineTypeValue != null) {
@@ -106,7 +117,7 @@ public class MainPageController {
             returnViewModel(filteredRecipes, result);
 
             model.addAttribute("allRecipes", result);
-            return "mainPage";
+            return true;
         }
 
         if (cuisineValue != null && cuisineTypeValue != null) {
@@ -117,7 +128,7 @@ public class MainPageController {
             returnViewModel(filteredRecipes, result);
 
             model.addAttribute("allRecipes", result);
-            return "mainPage";
+            return true;
         }
 
         if (name != null) {
@@ -126,7 +137,7 @@ public class MainPageController {
             returnViewModel(filteredRecipes, result);
 
             model.addAttribute("allRecipes", result);
-            return "mainPage";
+            return true;
         }
 
         if (cuisineValue != null) {
@@ -136,7 +147,7 @@ public class MainPageController {
             returnViewModel(filteredRecipes, result);
 
             model.addAttribute("allRecipes", result);
-            return "mainPage";
+            return true;
         }
 
         if (cuisineTypeValue != null) {
@@ -146,15 +157,9 @@ public class MainPageController {
             returnViewModel(filteredRecipes, result);
 
             model.addAttribute("allRecipes", result);
-            return "mainPage";
+            return true;
         }
-
-        List<Recipe> recipes = recipeService.getAll();
-
-        returnViewModel(recipes, result);
-
-        model.addAttribute("allRecipes", result);
-        return "mainPage";
+        return false;
     }
 
     @GetMapping("/mainPage/recipe/{id}")
@@ -217,6 +222,7 @@ public class MainPageController {
             return "editRecipe";
         }
 
+        setUser(recipe);
         recipeService.save(recipe);
 
         return "redirect:/mainPage";
@@ -236,14 +242,18 @@ public class MainPageController {
             return "addRecipe";
         }
 
+        setUser(recipe);
+        recipeService.save(recipe);
+
+        return "redirect:/mainPage";
+    }
+
+    private void setUser(@ModelAttribute("recipe") Recipe recipe) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         org.springframework.security.core.userdetails.User principal =
                 (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
         User user = userService.findByUsername(principal.getUsername());
         recipe.setUser(user);
-        recipeService.save(recipe);
-
-        return "redirect:/mainPage";
     }
 
     @ModelAttribute("cuisines")
@@ -287,7 +297,13 @@ public class MainPageController {
     }
 
     private void returnViewModel(List<Recipe> filteredRecipes, List<RecipeViewModel> result) {
+        long userId = getUserId();
+
         for (Recipe recipe : filteredRecipes) {
+            if (userId != 0 && recipe.getUser().getId() != userId) {
+                continue;
+            }
+
             Cuisine cuisine = cuisineService.findById(recipe.getCuisine());
             CuisineType cuisineType = cuisineTypeService.findById(recipe.getType());
             RecipeViewModel recipeViewModel = new RecipeViewModel(recipe, cuisine.getName(), cuisineType.getName());
